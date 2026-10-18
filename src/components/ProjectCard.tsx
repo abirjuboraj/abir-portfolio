@@ -93,13 +93,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
 
         {/* Project Thumbnail Image with Fallback */}
-        <div className="relative mb-4 sm:mb-5 overflow-hidden rounded-xl border border-line/60">
+        <div className="mb-4 sm:mb-5">
           <ImageWithFallback
             src={project.image}
             alt={project.name}
             fallbackTitle={project.name}
             expectedPath={`public${project.image}`}
-            aspectRatioClass="aspect-video"
             sizes="(max-width: 640px) 400px, (max-width: 768px) 620px, 540px"
           />
         </div>

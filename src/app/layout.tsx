@@ -108,7 +108,7 @@ export default function RootLayout({
       className={`${sora.variable} ${dmSans.variable} scroll-smooth dark`}
       data-scroll-behavior="smooth"
     >
-      <body className="min-h-screen bg-bg text-text font-sans antialiased flex flex-col selection:bg-blue/30 selection:text-white">
+      <body className="min-h-screen bg-bg text-text font-sans antialiased flex flex-col relative selection:bg-blue/30 selection:text-white">
         {/* Skip to main content link for keyboard accessibility */}
         <a
           href="#main-content"
@@ -117,11 +117,32 @@ export default function RootLayout({
           Skip to main content
         </a>
 
+        {/* Global Ambient Background System - Fixed in viewport behind content */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+          {/* Visible architectural technical grid */}
+          <div className="absolute inset-0 bg-grid-tech" />
+
+          {/* Secondary wide blueprint accent grid */}
+          <div className="absolute inset-0 bg-grid-fine opacity-80" />
+
+          {/* Top Hero ambient radial flare */}
+          <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[850px] h-[520px] bg-gradient-to-b from-blue/25 via-soft-blue/10 to-transparent blur-[120px] rounded-full" />
+
+          {/* Mid-page deep ambient glow spot (left) */}
+          <div className="absolute top-[38%] -left-48 w-[600px] h-[600px] bg-blue/[0.08] rounded-full blur-[140px]" />
+
+          {/* Lower-page deep ambient glow spot (right) */}
+          <div className="absolute top-[72%] -right-48 w-[600px] h-[600px] bg-soft-blue/[0.07] rounded-full blur-[140px]" />
+
+          {/* Subtle perimeter vignette for depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,rgba(9,9,11,0.65)_100%)]" />
+        </div>
+
         {/* Global Fixed Navbar */}
         <Navbar />
 
         {/* Main Content Area */}
-        <main id="main-content" className="flex-1">
+        <main id="main-content" className="flex-1 relative z-10">
           {children}
         </main>
 

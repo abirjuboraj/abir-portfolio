@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -104,6 +104,32 @@ export default function Navbar() {
     return `/${href}`;
   };
 
+  // Buttery smooth cubic easing scroll function (easeInOutCubic)
+  const smoothScrollTo = useCallback((targetPosition: number, duration: number = 750) => {
+    const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const distance = targetPosition - startPosition;
+    if (Math.abs(distance) < 2) return;
+
+    let startTime: number | null = null;
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+
+    const step = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startPosition + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  }, []);
+
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
@@ -113,14 +139,17 @@ export default function Navbar() {
       setMobileMenuOpen(false);
 
       if (href === "#home") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        smoothScrollTo(0, 700);
         window.history.pushState(null, "", "#home");
         setActiveSection("home");
       } else {
         const targetId = href.replace("#", "");
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: "smooth" });
+          const navHeight = 72;
+          const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+          const targetPosition = Math.max(0, elementPosition - navHeight);
+          smoothScrollTo(targetPosition, 750);
           window.history.pushState(null, "", href);
           setActiveSection(targetId);
         }
@@ -237,16 +266,17 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
             />
 
-            {/* Menu Container */}
+            {/* Menu Container: Anchored right, takes half device width */}
             <motion.div
               ref={menuRef}
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="absolute top-[64px] left-0 right-0 bg-surface border-b border-line shadow-2xl px-6 pt-4 pb-8 max-h-[calc(100svh-64px)] overflow-y-auto"
+              initial={{ opacity: 0, scale: 0.95, y: -6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -6 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              style={{ transformOrigin: "top right" }}
+              className="absolute top-[66px] right-3 sm:right-6 w-[50vw] min-w-[200px] max-w-[270px] bg-surface/95 backdrop-blur-xl border border-line rounded-2xl shadow-2xl shadow-black/80 p-3 max-h-[calc(100svh-80px)] overflow-y-auto"
             >
-              <nav className="flex flex-col gap-2 pt-2" aria-label="Mobile Navigation">
+              <nav className="flex flex-col gap-1" aria-label="Mobile Navigation">
                 {navItems.map((item) => {
                   const isActive = isHomePage && activeSection === item.id;
                   return (
@@ -254,7 +284,7 @@ export default function Navbar() {
                       key={item.name}
                       href={getHref(item.href)}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-colors ${
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                         isActive
                           ? "bg-raised text-white border border-line"
                           : "text-muted hover:text-white hover:bg-raised/50"
@@ -262,17 +292,17 @@ export default function Navbar() {
                     >
                       <span>{item.name}</span>
                       {isActive && (
-                        <span className="w-2 h-2 rounded-full bg-blue" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue" />
                       )}
                     </Link>
                   );
                 })}
 
-                <div className="pt-4 mt-2 border-t border-line">
+                <div className="pt-2.5 mt-1 border-t border-line/60">
                   <Link
                     href={getHref("#contact")}
                     onClick={(e) => handleNavClick(e, "#contact")}
-                    className="w-full py-3.5 px-4 rounded-xl text-center text-base font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-lg shadow-blue/20"
+                    className="w-full py-2.5 px-3 rounded-xl text-center text-sm font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-md shadow-blue/20"
                   >
                     Hire Me
                   </Link>

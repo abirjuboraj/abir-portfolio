@@ -39,9 +39,35 @@ export default function Footer() {
     return () => clearInterval(interval);
   }, []);
 
+  // Buttery smooth cubic easing scroll function (easeInOutCubic)
+  const smoothScrollTo = (targetPosition: number, duration: number = 750) => {
+    const startPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const distance = targetPosition - startPosition;
+    if (Math.abs(distance) < 2) return;
+
+    let startTime: number | null = null;
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+
+    const step = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startPosition + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
   // Back to top handler
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    smoothScrollTo(0, 750);
   };
 
   const getHref = (href: string) => {
@@ -123,13 +149,16 @@ export default function Footer() {
       e.preventDefault();
 
       if (href === "#home") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        smoothScrollTo(0, 750);
         window.history.pushState(null, "", "#home");
       } else {
         const targetId = href.replace("#", "");
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: "smooth" });
+          const navHeight = 72;
+          const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+          const targetPosition = Math.max(0, elementPosition - navHeight);
+          smoothScrollTo(targetPosition, 750);
           window.history.pushState(null, "", href);
         }
       }

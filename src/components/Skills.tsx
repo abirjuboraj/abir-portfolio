@@ -146,7 +146,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-20 md:py-28 bg-surface border-y border-line relative overflow-hidden"
+      className="py-20 md:py-28 bg-surface/85 backdrop-blur-sm border-y border-line relative overflow-hidden"
     >
       <div className="max-w-[1120px] mx-auto px-6">
         <SectionHeading

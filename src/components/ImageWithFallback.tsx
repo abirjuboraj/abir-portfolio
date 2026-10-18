@@ -14,6 +14,7 @@ interface ImageWithFallbackProps {
   priority?: boolean;
   sizes?: string;
   variant?: "project" | "avatar";
+  fit?: "cover" | "contain";
 }
 
 export default function ImageWithFallback({
@@ -22,10 +23,11 @@ export default function ImageWithFallback({
   fallbackTitle = "Project Preview",
   expectedPath,
   className = "",
-  aspectRatioClass = "aspect-video",
+  aspectRatioClass = "aspect-[16/10]",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
   variant = "project",
+  fit = "contain",
 }: ImageWithFallbackProps) {
   const [error, setError] = useState(false);
 
@@ -68,10 +70,10 @@ export default function ImageWithFallback({
   // Project variant
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-xl bg-gradient-to-br from-raised to-surface border border-line ${aspectRatioClass} ${className}`}
+      className={`relative w-full overflow-hidden rounded-xl border border-line/70 bg-[#0c0c0f] ${className}`}
     >
       {error ? (
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center select-none bg-gradient-to-b from-raised/80 to-surface">
+        <div className="w-full aspect-[2.2/1] flex flex-col items-center justify-center p-6 text-center select-none bg-gradient-to-b from-raised/80 to-surface">
           <div className="w-12 h-12 rounded-xl bg-surface border border-line flex items-center justify-center text-soft-blue/70 mb-3 shadow-inner">
             <HiOutlinePhoto className="w-6 h-6" />
           </div>
@@ -91,10 +93,11 @@ export default function ImageWithFallback({
         <Image
           src={src}
           alt={alt}
-          fill
+          width={1920}
+          height={860}
           priority={priority}
           sizes={sizes}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="w-full h-auto block object-cover object-top transition-transform duration-500 group-hover:scale-[1.01]"
           onError={() => setError(true)}
         />
       )}
