@@ -100,20 +100,20 @@ body {
 .bg-grid-tech {
   background-size: 38px 38px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.065) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.065) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
 }
 
 /* Secondary wide accent grid */
 .bg-grid-fine {
   background-size: 114px 114px;
   background-image: 
-    linear-gradient(to right, rgba(147, 197, 253, 0.09) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(147, 197, 253, 0.09) 1px, transparent 1px);
+    linear-gradient(to right, rgba(147, 197, 253, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(147, 197, 253, 0.12) 1px, transparent 1px);
 }
 
 /* Subtle dot matrix pattern */
 .bg-dots-pattern {
-  background-image: radial-gradient(rgba(147, 197, 253, 0.16) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(147, 197, 253, 0.2) 1.2px, transparent 1.2px);
   background-size: 24px 24px;
 }

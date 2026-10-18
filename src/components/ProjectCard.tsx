@@ -103,20 +103,20 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           />
         </div>
 
-        {/* Project Title */}
-        <h3 className="font-sora text-lg sm:text-xl md:text-2xl font-bold text-text group-hover:text-white transition-colors mb-2">
+        {/* Project Title - 1-line clamped for uniform alignment */}
+        <h3 className="font-sora text-lg sm:text-xl md:text-2xl font-bold text-text group-hover:text-white transition-colors mb-2 line-clamp-1">
           {project.name}
         </h3>
 
-        {/* 3-line Description Clamp */}
-        <p className="text-xs sm:text-sm text-muted leading-relaxed line-clamp-3 mb-5">
+        {/* 3-line Description Clamp with uniform height */}
+        <p className="text-xs sm:text-sm text-muted leading-relaxed line-clamp-3 h-[3.8rem] sm:h-[4.2rem] mb-5 overflow-hidden">
           {project.description}
         </p>
       </div>
 
       <div>
-        {/* Tech Stack Tags */}
-        <div className="flex flex-wrap gap-1.5 mb-5">
+        {/* Tech Stack Tags - Fixed height container so footer aligns horizontally across cards */}
+        <div className="flex flex-wrap content-start gap-1.5 mb-5 h-[58px] sm:h-[62px] overflow-hidden">
           {visibleTags.map((tech) => (
             <span
               key={tech}

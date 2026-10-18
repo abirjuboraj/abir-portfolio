@@ -137,7 +137,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
               alt={project.name}
               fallbackTitle={project.name}
               expectedPath={`public${project.image}`}
-              aspectRatioClass="aspect-video"
+              aspectRatioClass="aspect-[2.2/1]"
               priority
               sizes="(max-width: 1024px) 100vw, 560px"
             />

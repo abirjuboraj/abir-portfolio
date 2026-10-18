@@ -123,19 +123,22 @@ export default function RootLayout({
           <div className="absolute inset-0 bg-grid-tech" />
 
           {/* Secondary wide blueprint accent grid */}
-          <div className="absolute inset-0 bg-grid-fine opacity-80" />
+          <div className="absolute inset-0 bg-grid-fine opacity-90" />
 
           {/* Top Hero ambient radial flare */}
           <div className="absolute -top-36 left-1/2 -translate-x-1/2 w-[850px] h-[520px] bg-gradient-to-b from-blue/25 via-soft-blue/10 to-transparent blur-[120px] rounded-full" />
 
-          {/* Mid-page deep ambient glow spot (left) */}
-          <div className="absolute top-[38%] -left-48 w-[600px] h-[600px] bg-blue/[0.08] rounded-full blur-[140px]" />
+          {/* Mid-upper deep ambient glow spot (left) */}
+          <div className="absolute top-[28%] -left-48 w-[600px] h-[600px] bg-blue/[0.09] rounded-full blur-[140px]" />
 
-          {/* Lower-page deep ambient glow spot (right) */}
-          <div className="absolute top-[72%] -right-48 w-[600px] h-[600px] bg-soft-blue/[0.07] rounded-full blur-[140px]" />
+          {/* Mid-lower deep ambient glow spot (right) */}
+          <div className="absolute top-[60%] -right-48 w-[650px] h-[650px] bg-soft-blue/[0.08] rounded-full blur-[140px]" />
+
+          {/* Lower deep ambient glow spot (bottom center) */}
+          <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-t from-blue/15 via-soft-blue/5 to-transparent blur-[120px] rounded-full" />
 
           {/* Subtle perimeter vignette for depth */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,rgba(9,9,11,0.65)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(9,9,11,0.6)_100%)]" />
         </div>
 
         {/* Global Fixed Navbar */}

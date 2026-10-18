@@ -70,10 +70,10 @@ export default function ImageWithFallback({
   // Project variant
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-xl border border-line/70 bg-[#0c0c0f] ${className}`}
+      className={`relative w-full aspect-[2.2/1] overflow-hidden rounded-xl border border-line/70 bg-[#0c0c0f] ${className}`}
     >
       {error ? (
-        <div className="w-full aspect-[2.2/1] flex flex-col items-center justify-center p-6 text-center select-none bg-gradient-to-b from-raised/80 to-surface">
+        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center select-none bg-gradient-to-b from-raised/80 to-surface">
           <div className="w-12 h-12 rounded-xl bg-surface border border-line flex items-center justify-center text-soft-blue/70 mb-3 shadow-inner">
             <HiOutlinePhoto className="w-6 h-6" />
           </div>
@@ -93,11 +93,10 @@ export default function ImageWithFallback({
         <Image
           src={src}
           alt={alt}
-          width={1920}
-          height={860}
+          fill
           priority={priority}
           sizes={sizes}
-          className="w-full h-auto block object-cover object-top transition-transform duration-500 group-hover:scale-[1.01]"
+          className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.01]"
           onError={() => setError(true)}
         />
       )}

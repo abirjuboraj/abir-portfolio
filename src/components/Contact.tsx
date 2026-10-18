@@ -186,7 +186,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 md:py-28 bg-surface/85 backdrop-blur-sm border-y border-line relative"
+      className="py-20 md:py-28 relative"
     >
       <div className="max-w-[1120px] mx-auto px-6">
         <SectionHeading

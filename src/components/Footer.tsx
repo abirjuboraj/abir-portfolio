@@ -166,7 +166,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-bg border-t border-line pt-16 pb-8 md:pt-20 md:pb-10 overflow-hidden">
+    <footer className="relative border-t border-line pt-16 pb-8 md:pt-20 md:pb-10 overflow-hidden">
       <div className="max-w-[1120px] mx-auto px-6">
         {/* Three Columns: Left Statement, Middle Navigate, Right Connect */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-12">
