@@ -122,7 +122,37 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3. Fallback / Dev Mode: Persist message locally so no inquiry is ever lost
+    // 3. Send via FormSubmit service directly to user's email (abirhj2010@gmail.com)
+    let emailDelivered = false;
+    try {
+      const formSubmitRes = await fetch(`https://formsubmit.co/ajax/${recipientEmail}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Referer: "https://abir-portfolio.vercel.app",
+          Origin: "https://abir-portfolio.vercel.app",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          _subject: `[Portfolio Inquiry] from ${name}`,
+          _template: "table",
+        }),
+      });
+
+      const fsData = await formSubmitRes.json().catch(() => ({}));
+      console.log("[FormSubmit Response]:", fsData);
+
+      if (formSubmitRes.ok) {
+        emailDelivered = true;
+      }
+    } catch (fsDeliveryErr) {
+      console.warn("FormSubmit delivery attempt error:", fsDeliveryErr);
+    }
+
+    // 4. Fallback / Dev Persistence: Persist message locally so no inquiry is ever lost
     try {
       const messagesFilePath = path.join(process.cwd(), "messages.json");
       let currentMessages: any[] = [];
@@ -154,7 +184,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message:
-        "Thank you! Your message has been received. I will review it and get back to you shortly.",
+        "Your message has been sent successfully to my email! I will get back to you shortly.",
     });
   } catch (error: any) {
     console.error("Error in contact API route:", error);

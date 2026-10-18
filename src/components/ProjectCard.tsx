@@ -141,10 +141,6 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             <span>View Details</span>
             <HiOutlineArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1.5" />
           </Link>
-
-          <span className="text-[11px] text-muted/60 font-mono hidden sm:inline">
-            Case Study
-          </span>
         </div>
       </div>
     </div>
