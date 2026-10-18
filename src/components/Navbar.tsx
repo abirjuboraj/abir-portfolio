@@ -104,32 +104,6 @@ export default function Navbar() {
     return `/${href}`;
   };
 
-  // Buttery smooth cubic easing scroll function (easeInOutCubic)
-  const smoothScrollTo = useCallback((targetPosition: number, duration: number = 750) => {
-    const startPosition = window.pageYOffset || document.documentElement.scrollTop;
-    const distance = targetPosition - startPosition;
-    if (Math.abs(distance) < 2) return;
-
-    let startTime: number | null = null;
-    const easeInOutCubic = (t: number) =>
-      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-
-    const step = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
-      const ease = easeInOutCubic(progress);
-
-      window.scrollTo(0, startPosition + distance * ease);
-
-      if (timeElapsed < duration) {
-        requestAnimationFrame(step);
-      }
-    };
-
-    requestAnimationFrame(step);
-  }, []);
-
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
@@ -139,7 +113,7 @@ export default function Navbar() {
       setMobileMenuOpen(false);
 
       if (href === "#home") {
-        smoothScrollTo(0, 700);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         window.history.pushState(null, "", "#home");
         setActiveSection("home");
       } else {
@@ -149,7 +123,7 @@ export default function Navbar() {
           const navHeight = 72;
           const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
           const targetPosition = Math.max(0, elementPosition - navHeight);
-          smoothScrollTo(targetPosition, 750);
+          window.scrollTo({ top: targetPosition, behavior: "smooth" });
           window.history.pushState(null, "", href);
           setActiveSection(targetId);
         }

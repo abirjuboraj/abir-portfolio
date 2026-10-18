@@ -146,9 +146,9 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="py-20 md:py-28 relative overflow-hidden"
+      className="py-20 md:py-28 relative overflow-hidden section-dimmer"
     >
-      <div className="max-w-[1120px] mx-auto px-6">
+      <div className="max-w-[1120px] mx-auto px-6 relative z-10">
         <SectionHeading
           eyebrow="Skills"
           title="Technical Expertise"

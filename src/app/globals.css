@@ -117,3 +117,17 @@ body {
   background-image: radial-gradient(rgba(147, 197, 253, 0.2) 1.2px, transparent 1.2px);
   background-size: 24px 24px;
 }
+
+/* Section content ambient dimming veil - dims background behind section content while letting grid & glow emerge from the edges */
+.section-dimmer {
+  position: relative;
+}
+
+.section-dimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 85% 75% at 50% 50%, rgba(9, 9, 11, 0.68) 0%, rgba(9, 9, 11, 0.42) 65%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}

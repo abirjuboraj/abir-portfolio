@@ -73,9 +73,9 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-20 md:py-28 relative"
+      className="py-20 md:py-28 relative section-dimmer"
     >
-      <div className="max-w-[1120px] mx-auto px-6">
+      <div className="max-w-[1120px] mx-auto px-6 relative z-10">
         {/* Section Heading */}
         <SectionHeading
           eyebrow="About Me"

@@ -39,35 +39,9 @@ export default function Footer() {
     return () => clearInterval(interval);
   }, []);
 
-  // Buttery smooth cubic easing scroll function (easeInOutCubic)
-  const smoothScrollTo = (targetPosition: number, duration: number = 750) => {
-    const startPosition = window.pageYOffset || document.documentElement.scrollTop;
-    const distance = targetPosition - startPosition;
-    if (Math.abs(distance) < 2) return;
-
-    let startTime: number | null = null;
-    const easeInOutCubic = (t: number) =>
-      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-
-    const step = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
-      const ease = easeInOutCubic(progress);
-
-      window.scrollTo(0, startPosition + distance * ease);
-
-      if (timeElapsed < duration) {
-        requestAnimationFrame(step);
-      }
-    };
-
-    requestAnimationFrame(step);
-  };
-
   // Back to top handler
   const scrollToTop = () => {
-    smoothScrollTo(0, 750);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const getHref = (href: string) => {
@@ -149,7 +123,7 @@ export default function Footer() {
       e.preventDefault();
 
       if (href === "#home") {
-        smoothScrollTo(0, 750);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         window.history.pushState(null, "", "#home");
       } else {
         const targetId = href.replace("#", "");
@@ -158,7 +132,7 @@ export default function Footer() {
           const navHeight = 72;
           const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
           const targetPosition = Math.max(0, elementPosition - navHeight);
-          smoothScrollTo(targetPosition, 750);
+          window.scrollTo({ top: targetPosition, behavior: "smooth" });
           window.history.pushState(null, "", href);
         }
       }
@@ -166,7 +140,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-line pt-16 pb-8 md:pt-20 md:pb-10 overflow-hidden">
+    <footer className="relative bg-[#09090b] border-t border-line pt-16 pb-8 md:pt-20 md:pb-10 overflow-hidden z-20">
       <div className="max-w-[1120px] mx-auto px-6">
         {/* Three Columns: Left Statement, Middle Navigate, Right Connect */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-12">

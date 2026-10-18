@@ -65,7 +65,7 @@ export default function Hero() {
     <section
       id="home"
       onMouseMove={handleMouseMove}
-      className="relative min-h-[100svh] flex flex-col justify-center items-center pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-36 md:pb-24 overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col justify-center items-center pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-36 md:pb-24 overflow-hidden section-dimmer"
     >
       {/* Desktop Faint Blue Cursor Glow (max 10% opacity) */}
       <div

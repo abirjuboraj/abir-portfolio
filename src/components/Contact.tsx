@@ -141,22 +141,8 @@ export default function Contact() {
     setStatus("loading");
     setErrorMessage("");
 
-    const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
-
-    if (!formspreeId) {
-      console.warn(
-        "TODO: NEXT_PUBLIC_FORMSPREE_ID is not set in environment variables. Please create a Formspree form at https://formspree.io and add the form ID to .env.local."
-      );
-      setStatus("error");
-      setErrorMessage(
-        "Contact form backend is not configured yet. Please email me directly at " +
-          siteConfig.contact.email
-      );
-      return;
-    }
-
     try {
-      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,20 +151,23 @@ export default function Contact() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.success) {
         setStatus("success");
         setFormData({ name: "", email: "", message: "" });
         setErrors({});
       } else {
-        const data = await response.json().catch(() => ({}));
         throw new Error(
-          data.error || "Failed to send message. Please try again."
+          data.error || "Failed to send message. Please try again or email directly."
         );
       }
     } catch (err: unknown) {
       setStatus("error");
       setErrorMessage(
-        err instanceof Error ? err.message : "An error occurred while sending your message."
+        err instanceof Error
+          ? err.message
+          : "An error occurred while sending your message. Please email directly."
       );
     }
   };
@@ -186,9 +175,9 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-20 md:py-28 relative"
+      className="py-20 md:py-28 relative section-dimmer"
     >
-      <div className="max-w-[1120px] mx-auto px-6">
+      <div className="max-w-[1120px] mx-auto px-6 relative z-10">
         <SectionHeading
           eyebrow="Contact"
           title="Let's Work Together"

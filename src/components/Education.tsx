@@ -158,8 +158,8 @@ export default function Education() {
   });
 
   return (
-    <section id="education" className="py-20 md:py-28 relative">
-      <div className="max-w-[1120px] mx-auto px-6">
+    <section id="education" className="py-20 md:py-28 relative section-dimmer">
+      <div className="max-w-[1120px] mx-auto px-6 relative z-10">
         <SectionHeading
           eyebrow="Education"
           title="Academic Background"
