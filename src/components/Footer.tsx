@@ -117,10 +117,6 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
-            <p className="text-xs text-muted mt-4">
-              © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
-            </p>
           </div>
 
           {/* Middle Column: Navigate (stacks to 2 columns on mobile) */}
@@ -234,6 +230,13 @@ export default function Footer() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Bottom Centered Copyright */}
+        <div className="mt-10 pt-6 border-t border-line/60 flex items-center justify-center text-center">
+          <p className="text-xs text-muted">
+            © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
