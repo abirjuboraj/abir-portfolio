@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
               </a>
 
-              {/* Outline CTA: GitHub (Client) */}
+              {/* Outline CTA: GitHub */}
               <a
                 href={project.githubUrl}
                 target="_blank"
@@ -125,7 +125,8 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium text-text hover:text-white bg-surface hover:bg-raised border border-line transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
               >
                 <SiGithub className="w-4 h-4" />
-                <span>GitHub (Client)</span>
+                <span>GitHub</span>
+                <HiOutlineArrowTopRightOnSquare className="w-4 h-4" />
               </a>
             </div>
           </div>
