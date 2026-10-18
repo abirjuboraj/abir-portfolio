@@ -49,57 +49,6 @@ export default function Footer() {
     return `/${href}`;
   };
 
-  // Giant Ghost Name auto-fit and parallax
-  const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLHeadingElement>(null);
-  const [parallaxX, setParallaxX] = useState(0);
-
-  useEffect(() => {
-    const adjustFontSize = () => {
-      if (!containerRef.current || !textRef.current) return;
-      const containerWidth = containerRef.current.clientWidth;
-      const targetWidth = containerWidth * 0.95;
-
-      // Reset to benchmark font-size to measure width accurately
-      textRef.current.style.fontSize = "100px";
-      const measuredWidth = textRef.current.scrollWidth;
-
-      if (measuredWidth > 0) {
-        const calculatedSize = (targetWidth / measuredWidth) * 100;
-        // Cap within practical bounds to keep footer compact
-        const clampedSize = Math.max(32, Math.min(180, calculatedSize));
-        textRef.current.style.fontSize = `${clampedSize}px`;
-      }
-    };
-
-    adjustFontSize();
-    window.addEventListener("resize", adjustFontSize);
-
-    if (document.fonts) {
-      document.fonts.ready.then(adjustFontSize);
-    }
-
-    return () => window.removeEventListener("resize", adjustFontSize);
-  }, []);
-
-  // Slight horizontal parallax on scroll (+-12px)
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      if (rect.top < windowHeight && rect.bottom > 0) {
-        const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
-        // Map progress (0 to 1) to -12px to +12px
-        const offset = (progress - 0.5) * 24;
-        setParallaxX(offset);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Magnetic hover effect helper for social buttons
   const handleMagnetic = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -140,10 +89,10 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#09090b] border-t border-line pt-16 pb-8 md:pt-20 md:pb-10 overflow-hidden z-20">
+    <footer className="relative bg-[#09090b] border-t border-line py-12 md:py-16 overflow-hidden z-20">
       <div className="max-w-[1120px] mx-auto px-6">
         {/* Three Columns: Left Statement, Middle Navigate, Right Connect */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
           {/* Left Column: Statement & Large Email */}
           <div className="md:col-span-5 flex flex-col justify-between">
             <div>
@@ -285,27 +234,6 @@ export default function Footer() {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Giant Ghost "ABIR HOSSEN" Background Name */}
-        <div
-          ref={containerRef}
-          className="w-full pt-8 pb-2 flex items-center justify-center overflow-visible select-none"
-        >
-          <h2
-            ref={textRef}
-            style={{
-              transform: `translate3d(${parallaxX}px, 0, 0)`,
-              WebkitTextStroke: "1px rgba(147, 197, 253, 0.16)",
-              backgroundImage:
-                "linear-gradient(to bottom, rgba(147, 197, 253, 0.1), rgba(59, 130, 246, 0.02))",
-              WebkitBackgroundClip: "text",
-              color: "transparent",
-            }}
-            className="font-sora font-extrabold uppercase tracking-tighter whitespace-nowrap leading-none transition-transform duration-100 ease-out pointer-events-none text-center"
-          >
-            ABIR HOSSEN
-          </h2>
         </div>
       </div>
     </footer>

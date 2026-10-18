@@ -15,7 +15,7 @@ export default function Projects() {
         <SectionHeading
           eyebrow="Projects"
           title="Featured Work"
-          subtitle="A selection of things I've built and shipped."
+          subtitle="Some projects I've worked on recently."
         />
 
         {/* 2 columns on tablet and desktop (>=768px), 1 col on mobile */}
