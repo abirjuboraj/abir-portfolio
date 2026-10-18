@@ -16,6 +16,8 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const isNavClickRef = useRef(false);
+  const navClickTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Monitor scroll for glass background transition
   useEffect(() => {
@@ -38,6 +40,9 @@ export default function Navbar() {
 
     const sectionIds = ["home", "about", "education", "skills", "projects", "contact"];
     const observerCallback: IntersectionObserverCallback = (entries) => {
+      // Do not override active section while smooth scrolling from nav click is in progress
+      if (isNavClickRef.current) return;
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
@@ -58,6 +63,24 @@ export default function Navbar() {
 
     return () => observer.disconnect();
   }, [isHomePage]);
+
+  // Release nav click lock when scrolling ends
+  useEffect(() => {
+    const handleScrollEnd = () => {
+      if (isNavClickRef.current) {
+        if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+        navClickTimerRef.current = setTimeout(() => {
+          isNavClickRef.current = false;
+        }, 120);
+      }
+    };
+
+    window.addEventListener("scrollend", handleScrollEnd, { passive: true });
+    return () => {
+      window.removeEventListener("scrollend", handleScrollEnd);
+      if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+    };
+  }, []);
 
   // Close mobile menu on Escape key
   useEffect(() => {
@@ -112,12 +135,18 @@ export default function Navbar() {
       e.preventDefault();
       setMobileMenuOpen(false);
 
+      const targetId = href === "#home" ? "home" : href.replace("#", "");
+      setActiveSection(targetId);
+      isNavClickRef.current = true;
+      if (navClickTimerRef.current) clearTimeout(navClickTimerRef.current);
+      navClickTimerRef.current = setTimeout(() => {
+        isNavClickRef.current = false;
+      }, 850);
+
       if (href === "#home") {
         window.scrollTo({ top: 0, behavior: "smooth" });
         window.history.pushState(null, "", "#home");
-        setActiveSection("home");
       } else {
-        const targetId = href.replace("#", "");
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
           const navHeight = 72;
@@ -125,7 +154,6 @@ export default function Navbar() {
           const targetPosition = Math.max(0, elementPosition - navHeight);
           window.scrollTo({ top: targetPosition, behavior: "smooth" });
           window.history.pushState(null, "", href);
-          setActiveSection(targetId);
         }
       }
     }
@@ -189,7 +217,7 @@ export default function Navbar() {
                     <motion.div
                       layoutId="activeNavPill"
                       className="absolute inset-0 bg-blue/15 border border-blue/40 rounded-full -z-10"
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 38, bounce: 0 }}
                     />
                   )}
                   {item.name}

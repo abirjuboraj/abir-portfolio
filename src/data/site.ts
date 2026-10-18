@@ -48,7 +48,7 @@ export const siteConfig = {
   },
   contact: {
     email: "abirhj2010@gmail.com",
-    phone: "01773341277",
+    phone: "+8801773341277",
     phoneRaw: "+8801892317192",
     whatsappUrl: "https://wa.me/8801773341277",
     location: "Rajshahi, Bangladesh",

@@ -65,11 +65,10 @@ function ContactMethodCard({
           type="button"
           onClick={handleCopy}
           aria-label={`Copy ${label}`}
-          className={`shrink-0 ml-3 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${
-            copied
+          className={`shrink-0 ml-3 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${copied
               ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
               : "bg-surface border-line text-muted hover:text-white hover:border-line"
-          }`}
+            }`}
         >
           {copied ? (
             <>
@@ -208,9 +207,9 @@ export default function Contact() {
             <ContactMethodCard
               icon={HiOutlinePhone}
               label="Phone"
-              value={siteConfig.contact.phone}
+              value={siteConfig.contact.phoneRaw}
               href={`tel:${siteConfig.contact.phoneRaw}`}
-              copyValue={siteConfig.contact.phone}
+              copyValue={siteConfig.contact.phoneRaw}
             />
 
             {/* WhatsApp Card */}
@@ -251,9 +250,8 @@ export default function Contact() {
                     setFormData({ ...formData, name: e.target.value });
                     if (errors.name) setErrors({ ...errors, name: "" });
                   }}
-                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors ${
-                    errors.name ? "border-red-500/80" : "border-line"
-                  }`}
+                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors ${errors.name ? "border-red-500/80" : "border-line"
+                    }`}
                 />
                 <label
                   htmlFor="contact-name"
@@ -279,9 +277,8 @@ export default function Contact() {
                     setFormData({ ...formData, email: e.target.value });
                     if (errors.email) setErrors({ ...errors, email: "" });
                   }}
-                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors ${
-                    errors.email ? "border-red-500/80" : "border-line"
-                  }`}
+                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors ${errors.email ? "border-red-500/80" : "border-line"
+                    }`}
                 />
                 <label
                   htmlFor="contact-email"
@@ -307,9 +304,8 @@ export default function Contact() {
                     setFormData({ ...formData, message: e.target.value });
                     if (errors.message) setErrors({ ...errors, message: "" });
                   }}
-                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors resize-none ${
-                    errors.message ? "border-red-500/80" : "border-line"
-                  }`}
+                  className={`peer w-full px-4 py-3.5 rounded-xl bg-surface border text-text placeholder-transparent text-sm focus:outline-none focus:border-blue transition-colors resize-none ${errors.message ? "border-red-500/80" : "border-line"
+                    }`}
                 />
                 <label
                   htmlFor="contact-message"
