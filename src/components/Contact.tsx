@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineEnvelope,
   HiOutlinePhone,
   HiOutlineMapPin,
   HiOutlineCheck,
+  HiOutlineXMark,
   HiOutlineClipboardDocument,
   HiOutlinePaperAirplane,
 } from "react-icons/hi2";
@@ -112,6 +114,16 @@ export default function Contact() {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Automatically dismiss success / error message after 5 seconds
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      const timer = setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   const validate = () => {
     const errs: { [key: string]: string } = {};
@@ -320,21 +332,53 @@ export default function Contact() {
                 )}
               </div>
 
-              {/* Status Notifications */}
-              {status === "success" && (
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3 text-emerald-400 text-sm">
-                  <HiOutlineCheck className="w-5 h-5 shrink-0" />
-                  <span>
-                    Thank you! Your message has been sent successfully.
-                  </span>
-                </div>
-              )}
+              {/* Status Notifications with Animated Enter & Exit */}
+              <AnimatePresence mode="wait">
+                {status === "success" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                    transition={{ duration: 0.25 }}
+                    className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between gap-3 text-emerald-400 text-sm shadow-sm"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <HiOutlineCheck className="w-5 h-5 shrink-0 text-emerald-400" />
+                      <span>
+                        Thank you! Your message has been sent successfully.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="p-1 rounded-lg text-emerald-400/60 hover:text-emerald-400 hover:bg-emerald-500/20 transition-colors shrink-0"
+                      aria-label="Dismiss message"
+                    >
+                      <HiOutlineXMark className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                )}
 
-              {status === "error" && (
-                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-                  {errorMessage}
-                </div>
-              )}
+                {status === "error" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25 }}
+                    className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center justify-between gap-3"
+                  >
+                    <span>{errorMessage}</span>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="p-1 rounded-lg text-red-400/60 hover:text-red-400 hover:bg-red-500/20 transition-colors shrink-0"
+                      aria-label="Dismiss message"
+                    >
+                      <HiOutlineXMark className="w-4 h-4" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Primary Blue CTA: Send Message */}
               <button

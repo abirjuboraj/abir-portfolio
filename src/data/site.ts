@@ -27,7 +27,7 @@ export const siteConfig = {
     "Building with AI",
   ],
   heroIntro:
-    "Full Stack Developer building websites and web apps powered by AI. I turn ideas into working products with Next.js, TypeScript and Tailwind CSS.",
+    "Full Stack Developer building websites and web apps powered by AI. Turning ideas into working products with Next.js, TypeScript and Tailwind CSS.",
   badgeText: "Open to full-time & remote roles",
   socials: {
     github: {
