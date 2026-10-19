@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ModernBackground from "@/components/ModernBackground";
+import PageLoader from "@/components/PageLoader";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -117,6 +118,9 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
+
+        {/* Global Page Entrance & Route Transition Loader */}
+        <PageLoader />
 
         {/* Modern Interactive & Atmospheric Background System */}
         <ModernBackground />

@@ -15,6 +15,7 @@ interface ImageWithFallbackProps {
   sizes?: string;
   variant?: "project" | "avatar";
   fit?: "cover" | "contain";
+  imageClassName?: string;
 }
 
 export default function ImageWithFallback({
@@ -28,6 +29,7 @@ export default function ImageWithFallback({
   sizes = "(max-width: 768px) 100vw, 50vw",
   variant = "project",
   fit = "contain",
+  imageClassName = "",
 }: ImageWithFallbackProps) {
   const [error, setError] = useState(false);
 
@@ -60,7 +62,7 @@ export default function ImageWithFallback({
           fill
           priority={priority}
           sizes="(max-width: 640px) 300px, (max-width: 1024px) 360px, 420px"
-          className="object-cover object-top transition-transform duration-700 hover:scale-105"
+          className={imageClassName || "object-cover object-top transition-transform duration-700 hover:scale-105"}
           onError={() => setError(true)}
         />
       </div>

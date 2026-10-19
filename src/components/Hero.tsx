@@ -119,7 +119,7 @@ export default function Hero() {
             </div>
 
             {/* Intro Paragraph */}
-            <p className="text-muted text-base sm:text-lg leading-relaxed max-w-xl mb-8">
+            <p className="text-muted text-base sm:text-lg leading-relaxed max-w-xl mb-8 text-justify">
               {siteConfig.heroIntro}
             </p>
 

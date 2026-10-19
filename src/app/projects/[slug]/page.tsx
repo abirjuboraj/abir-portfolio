@@ -100,7 +100,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </h1>
 
             {/* Description */}
-            <p className="text-muted text-base sm:text-lg leading-relaxed mb-8">
+            <p className="text-muted text-base sm:text-lg leading-relaxed mb-8 text-justify">
               {project.description}
             </p>
 
@@ -179,7 +179,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   <span className="font-sora text-xs font-bold text-soft-blue bg-surface border border-line px-2.5 py-1 rounded-lg shrink-0">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-sm sm:text-base text-muted leading-relaxed">
+                  <p className="text-sm sm:text-base text-muted leading-relaxed text-justify">
                     {challenge}
                   </p>
                 </div>
@@ -202,7 +202,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
                   <span className="font-sora text-xs font-bold text-blue bg-surface border border-line px-2.5 py-1 rounded-lg shrink-0">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-sm sm:text-base text-muted leading-relaxed">
+                  <p className="text-sm sm:text-base text-muted leading-relaxed text-justify">
                     {plan}
                   </p>
                 </div>

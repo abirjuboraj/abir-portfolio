@@ -41,7 +41,7 @@ export default function Projects() {
 
           {/* Heading */}
           <h3 className="font-sora text-2xl sm:text-3xl font-bold text-text mb-3 leading-snug">
-            Want to see more of my{" "}
+            Want to see more of my
             <span className="bg-gradient-to-r from-soft-blue to-blue bg-clip-text text-transparent">
               work?
             </span>

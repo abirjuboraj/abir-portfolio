@@ -76,23 +76,30 @@ export default function TechOrbit({ mousePosition }: TechOrbitProps) {
   const shiftY = mousePosition.y * 12;
 
   return (
-    <div className="relative w-full max-w-[360px] sm:max-w-[400px] md:max-w-[440px] lg:max-w-[470px] aspect-square mx-auto flex items-center justify-center p-2 sm:p-3">
+    <div className="relative w-full max-w-[360px] sm:max-w-[400px] md:max-w-[450px] lg:max-w-[480px] aspect-square mx-auto flex items-center justify-center p-2 sm:p-3">
       {/* Rotating gradient ring */}
       <div className="absolute inset-2 sm:inset-3 md:inset-4 rounded-full p-[2px] bg-gradient-to-tr from-blue/40 via-soft-blue/20 to-transparent animate-[spin_20s_linear_infinite] pointer-events-none opacity-80" />
 
       {/* Outer ambient glow */}
       <div className="absolute inset-8 rounded-full bg-blue/5 blur-2xl pointer-events-none" />
 
-      {/* Circular Avatar Container - Enriched & Enlarged */}
-      <div className="relative w-[250px] h-[250px] sm:w-[290px] sm:h-[290px] md:w-[325px] md:h-[325px] lg:w-[355px] lg:h-[355px] rounded-full p-1.5 bg-surface border-2 border-line shadow-2xl overflow-hidden z-10 transition-transform duration-500 hover:scale-[1.01]">
+      {/* Circular Avatar Container - Enriched & Enlarged for Desktop */}
+      <div className="relative w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[345px] md:h-[345px] lg:w-[375px] lg:h-[375px] rounded-full p-1.5 bg-gradient-to-b from-[#181822] via-[#111116] to-[#09090d] border-2 border-line shadow-2xl overflow-hidden z-10 transition-transform duration-500 hover:scale-[1.01]">
+        {/* Soft studio radial backlight behind transparent cutout */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,_rgba(59,130,246,0.22)_0%,_rgba(147,197,253,0.08)_45%,_transparent_70%)] pointer-events-none" />
+
         <ImageWithFallback
-          src="/photo.jpg"
+          src="/photo-nobg.png"
           alt="Md. Abir Hossen"
           fallbackTitle="AH"
-          expectedPath="public/photo.jpg"
+          expectedPath="public/photo-nobg.png"
           variant="avatar"
+          imageClassName="object-cover object-[center_top] scale-[1.01] md:scale-[1.03] transition-transform duration-700 hover:scale-105"
           priority
         />
+
+        {/* Soft minimal bottom dissolve: softly melts only the lowest 35px into the rim */}
+        <div className="absolute inset-x-0 bottom-0 h-9 sm:h-11 bg-gradient-to-t from-[#09090d] via-[#09090d]/60 to-transparent pointer-events-none" />
       </div>
 
       {/* Floating Interactive Tech Buttons */}
@@ -115,9 +122,8 @@ export default function TechOrbit({ mousePosition }: TechOrbitProps) {
               delay: tech.floatDelay,
             }}
             style={{
-              transform: `translate3d(${shiftX * (tech.offsetX / 14)}px, ${
-                shiftY * (tech.offsetY / 14)
-              }px, 0)`,
+              transform: `translate3d(${shiftX * (tech.offsetX / 14)}px, ${shiftY * (tech.offsetY / 14)
+                }px, 0)`,
             }}
           >
             <div className="relative group">
@@ -145,11 +151,10 @@ export default function TechOrbit({ mousePosition }: TechOrbitProps) {
               {/* Tooltip */}
               <div
                 role="tooltip"
-                className={`absolute left-1/2 -translate-x-1/2 -bottom-8 px-2.5 py-1 rounded-md bg-surface border border-line text-[11px] font-medium text-text whitespace-nowrap shadow-xl pointer-events-none transition-all duration-200 ${
-                  isHovered
+                className={`absolute left-1/2 -translate-x-1/2 -bottom-8 px-2.5 py-1 rounded-md bg-surface border border-line text-[11px] font-medium text-text whitespace-nowrap shadow-xl pointer-events-none transition-all duration-200 ${isHovered
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 -translate-y-1"
-                }`}
+                  }`}
               >
                 {tech.name}
               </div>

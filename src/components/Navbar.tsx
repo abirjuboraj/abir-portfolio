@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
+import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import ScrollProgress from "./ScrollProgress";
 import { siteConfig } from "@/data/site";
 
@@ -13,13 +14,14 @@ export default function Navbar() {
   const isHomePage = pathname === "/";
 
   const [scrolled, setScrolled] = useState(false);
+  const [pastHome, setPastHome] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const isNavClickRef = useRef(false);
   const navClickTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Monitor scroll for glass background transition
+  // Monitor scroll for glass background transition and pastHome state
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -27,12 +29,26 @@ export default function Navbar() {
       } else {
         setScrolled(false);
       }
+
+      if (!isHomePage) {
+        setPastHome(true);
+        return;
+      }
+
+      const homeSection = document.getElementById("home");
+      if (homeSection) {
+        const homeBottom = homeSection.getBoundingClientRect().bottom;
+        // When bottom of home section is at or above navbar height
+        setPastHome(homeBottom <= 80);
+      } else {
+        setPastHome(window.scrollY > 450);
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHomePage]);
 
   // Scrollspy on home page
   useEffect(() => {
@@ -190,14 +206,14 @@ export default function Navbar() {
             <div className="w-10 h-10 rounded-xl bg-white text-bg font-sora font-extrabold flex items-center justify-center text-sm shadow-md tracking-tight group-hover:scale-105 transition-transform duration-200">
               AH
             </div>
-            <span className="hidden min-[900px]:inline-block font-sora text-sm font-semibold text-text tracking-tight group-hover:text-soft-blue transition-colors">
+            <span className="hidden lg:inline-block font-sora text-sm font-semibold text-text tracking-tight group-hover:text-soft-blue transition-colors">
               {siteConfig.shortName}
             </span>
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Navigation Links (Visible on Tablet and Desktop) */}
           <nav
-            className="hidden min-[900px]:flex items-center gap-1 bg-raised/70 border border-line rounded-full px-3 py-1.5 backdrop-blur-sm"
+            className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-raised/70 border border-line rounded-full px-2 lg:px-3 py-1 lg:py-1.5 backdrop-blur-sm"
             aria-label="Primary Navigation"
           >
             {navItems.map((item) => {
@@ -207,7 +223,7 @@ export default function Navbar() {
                   key={item.name}
                   href={getHref(item.href)}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${
+                  className={`relative px-2.5 lg:px-4 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${
                     isActive
                       ? "text-white"
                       : "text-muted hover:text-text hover:bg-white/5"
@@ -226,38 +242,114 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Desktop Right CTA: Hire Me */}
-          <div className="hidden min-[900px]:flex items-center">
+          {/* Tablet & Desktop Right CTA: Resume Button (appears when scrolled past home) + Hire Me */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-2.5">
+            <AnimatePresence>
+              {pastHome && (
+                <motion.div
+                  key="nav-resume-cta"
+                  initial={{ opacity: 0, scale: 0.9, x: 10, width: 0 }}
+                  animate={{ opacity: 1, scale: 1, x: 0, width: "auto" }}
+                  exit={{ opacity: 0, scale: 0.9, x: 10, width: 0 }}
+                  transition={{
+                    duration: 0.35,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="overflow-hidden flex items-center shrink-0"
+                >
+                  {/* Desktop Resume Button (>= 1024px) */}
+                  <a
+                    href="/resume.pdf"
+                    download="Abir_Hossen_Resume.pdf"
+                    className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium text-text hover:text-white bg-surface hover:bg-raised border border-line hover:border-soft-blue/50 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+                    aria-label="Download Resume"
+                  >
+                    <HiOutlineArrowDownTray className="w-4 h-4 text-soft-blue" />
+                    <span>Resume</span>
+                  </a>
+
+                  {/* Tablet Resume Button (768px - 1023px) */}
+                  <a
+                    href="/resume.pdf"
+                    download="Abir_Hossen_Resume.pdf"
+                    className="lg:hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-raised border border-line hover:border-soft-blue/40 text-xs font-semibold text-text hover:text-white transition-all shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+                    aria-label="Download Resume"
+                  >
+                    <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
+                    <span>CV</span>
+                  </a>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Desktop Hire Me Button */}
             <Link
               href={getHref("#contact")}
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="px-5 py-2 rounded-xl text-sm font-medium text-white bg-blue hover:bg-blue/90 border border-blue/60 transition-all duration-200 shadow-sm hover:shadow-blue/20 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              className="hidden lg:inline-flex items-center px-5 py-2 rounded-xl text-sm font-medium text-white bg-blue hover:bg-blue/90 border border-blue/60 transition-all duration-200 shadow-sm hover:shadow-blue/20 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-bg whitespace-nowrap"
+            >
+              Hire Me
+            </Link>
+
+            {/* Tablet Hire Me Button (compact, matching the resume pill UI) */}
+            <Link
+              href={getHref("#contact")}
+              onClick={(e) => handleNavClick(e, "#contact")}
+              className="lg:hidden inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-blue hover:bg-blue/90 border border-blue/60 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap"
             >
               Hire Me
             </Link>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="min-[900px]:hidden w-11 h-11 rounded-xl bg-raised border border-line flex items-center justify-center text-text hover:text-soft-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? (
-              <HiOutlineX className="w-6 h-6" />
-            ) : (
-              <HiOutlineMenuAlt3 className="w-6 h-6" />
-            )}
-          </button>
+          {/* Mobile Right: Compact Resume button when scrolled + Hamburger Button (Mobile Only) */}
+          <div className="md:hidden flex items-center gap-2">
+            <AnimatePresence>
+              {pastHome && (
+                <motion.div
+                  key="mobile-header-resume-btn"
+                  initial={{ opacity: 0, scale: 0.88, x: 8, width: 0 }}
+                  animate={{ opacity: 1, scale: 1, x: 0, width: "auto" }}
+                  exit={{ opacity: 0, scale: 0.88, x: 8, width: 0 }}
+                  transition={{
+                    duration: 0.32,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="overflow-hidden flex items-center shrink-0"
+                >
+                  <a
+                    href="/resume.pdf"
+                    download="Abir_Hossen_Resume.pdf"
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface border border-line text-xs font-semibold text-text hover:text-white hover:border-soft-blue/40 shadow-sm whitespace-nowrap"
+                    aria-label="Download Resume"
+                  >
+                    <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
+                    <span>CV</span>
+                  </a>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="w-11 h-11 rounded-xl bg-raised border border-line flex items-center justify-center text-text hover:text-soft-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? (
+                <HiOutlineX className="w-6 h-6" />
+              ) : (
+                <HiOutlineMenuAlt3 className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Animated Slide-down Drawer Menu */}
+      {/* Mobile Animated Slide-down Drawer Menu (Mobile Only) */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="min-[900px]:hidden fixed inset-0 z-40">
+          <div className="md:hidden fixed inset-0 z-40">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -300,11 +392,19 @@ export default function Navbar() {
                   );
                 })}
 
-                <div className="pt-2.5 mt-1 border-t border-line/60">
+                <div className="pt-2.5 mt-1 border-t border-line/60 grid grid-cols-2 gap-2">
+                  <a
+                    href="/resume.pdf"
+                    download="Abir_Hossen_Resume.pdf"
+                    className="py-2.5 px-3 rounded-xl text-center text-xs sm:text-sm font-medium text-text bg-raised hover:bg-surface border border-line transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                  >
+                    <HiOutlineArrowDownTray className="w-4 h-4 text-soft-blue" />
+                    <span>Resume</span>
+                  </a>
                   <Link
                     href={getHref("#contact")}
                     onClick={(e) => handleNavClick(e, "#contact")}
-                    className="w-full py-2.5 px-3 rounded-xl text-center text-sm font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-md shadow-blue/20"
+                    className="py-2.5 px-3 rounded-xl text-center text-xs sm:text-sm font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-md shadow-blue/20"
                   >
                     Hire Me
                   </Link>

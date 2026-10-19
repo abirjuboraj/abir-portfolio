@@ -27,7 +27,7 @@ function ScoreRing({
   return (
     <div
       ref={ref}
-      className="flex flex-col items-center justify-center shrink-0 min-w-[90px]"
+      className="flex flex-col items-center justify-center shrink-0 min-w-[95px]"
     >
       <div className="relative w-16 h-16 flex items-center justify-center">
         <svg
@@ -66,9 +66,77 @@ function ScoreRing({
         </span>
       </div>
 
-      <span className="text-[11px] font-medium text-muted mt-1 text-center whitespace-nowrap">
+      <span className="text-[11px] font-medium text-muted mt-1.5 text-center whitespace-nowrap">
         {caption}
       </span>
+    </div>
+  );
+}
+
+function MobileScoreBadge({
+  score,
+  maxScore,
+  caption,
+}: {
+  score: number;
+  maxScore: number;
+  caption: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
+
+  const radius = 15;
+  const stroke = 2.5;
+  const normalizedRadius = radius - stroke;
+  const circumference = normalizedRadius * 2 * Math.PI;
+  const targetOffset = circumference - (score / maxScore) * circumference;
+
+  return (
+    <div
+      ref={ref}
+      className="sm:hidden inline-flex items-center gap-2 px-2.5 py-1 rounded-xl bg-surface/90 border border-line shadow-sm"
+    >
+      <div className="relative w-7 h-7 flex items-center justify-center shrink-0">
+        <svg
+          height={radius * 2}
+          width={radius * 2}
+          className="rotate-[-90deg] overflow-visible"
+        >
+          <circle
+            stroke="rgba(255, 255, 255, 0.08)"
+            fill="transparent"
+            strokeWidth={stroke}
+            r={normalizedRadius}
+            cx={radius}
+            cy={radius}
+          />
+          <motion.circle
+            stroke="#3B82F6"
+            fill="transparent"
+            strokeWidth={stroke}
+            strokeDasharray={`${circumference} ${circumference}`}
+            initial={{ strokeDashoffset: circumference }}
+            animate={{ strokeDashoffset: isInView ? targetOffset : circumference }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            strokeLinecap="round"
+            r={normalizedRadius}
+            cx={radius}
+            cy={radius}
+          />
+        </svg>
+        <span className="absolute font-sora text-[9px] font-bold text-white">
+          {score.toFixed(1)}
+        </span>
+      </div>
+
+      <div className="flex flex-col text-left">
+        <span className="font-sora text-xs font-bold text-white leading-tight">
+          {score.toFixed(2)}
+        </span>
+        <span className="text-[10px] font-medium text-muted leading-tight whitespace-nowrap">
+          {caption}
+        </span>
+      </div>
     </div>
   );
 }
@@ -90,7 +158,7 @@ function TimelineCard({ item, index }: { item: EducationItem; index: number }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
-      className="relative p-6 sm:p-7 rounded-2xl bg-raised border border-line transition-all duration-300 hover:border-blue/40 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 overflow-hidden"
+      className="relative p-5 sm:p-7 md:p-8 rounded-2xl bg-raised border border-line transition-all duration-300 hover:border-blue/40 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 overflow-hidden"
     >
       {/* Cursor-following Spotlight Effect on Hover */}
       <div
@@ -101,17 +169,27 @@ function TimelineCard({ item, index }: { item: EducationItem; index: number }) {
         }}
       />
 
-      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-        <div className="flex-1 space-y-3">
-          {/* Period Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line text-xs font-semibold text-soft-blue">
-            <HiOutlineCalendar className="w-3.5 h-3.5 text-blue" />
-            <span>{item.period}</span>
+      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6">
+        <div className="flex-1 space-y-3 w-full">
+          {/* Top Row: Period Badge on Left, Row-wise Stat Badge on Right for Mobile */}
+          <div className="flex items-center justify-between gap-2.5 flex-wrap">
+            {/* Period Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line text-xs font-semibold text-soft-blue">
+              <HiOutlineCalendar className="w-3.5 h-3.5 text-blue" />
+              <span>{item.period}</span>
+            </div>
+
+            {/* Mobile Score Stat: Row-wise at top right instead of stacked at bottom */}
+            <MobileScoreBadge
+              score={item.score}
+              maxScore={item.maxScore}
+              caption={item.caption}
+            />
           </div>
 
           {/* Degree & Institution */}
           <div>
-            <h3 className="font-sora text-lg sm:text-xl font-bold text-text mb-1">
+            <h3 className="font-sora text-lg sm:text-xl md:text-2xl font-bold text-text mb-1">
               {item.degree}
             </h3>
             <p className="text-sm sm:text-base text-muted flex items-center gap-1.5">
@@ -133,8 +211,8 @@ function TimelineCard({ item, index }: { item: EducationItem; index: number }) {
           </div>
         </div>
 
-        {/* Score Ring Component */}
-        <div className="w-full sm:w-auto flex justify-start sm:justify-center border-t sm:border-t-0 sm:border-l border-line/60 pt-4 sm:pt-0 sm:pl-6">
+        {/* Score Ring Component - Hidden on mobile, prominent on tablet and desktop */}
+        <div className="hidden sm:flex justify-center border-l border-line/60 sm:pl-6 md:pl-8 shrink-0">
           <ScoreRing
             score={item.score}
             maxScore={item.maxScore}
@@ -166,22 +244,25 @@ export default function Education() {
           subtitle="From electrical engineering to building for the web."
         />
 
-        {/* Timeline Container */}
-        <div ref={containerRef} className="relative max-w-3xl mx-auto pl-6 sm:pl-10">
+        {/* Timeline Container - Wider in tablet (max-w-4xl) and desktop (lg:max-w-5xl) */}
+        <div
+          ref={containerRef}
+          className="relative max-w-4xl lg:max-w-5xl mx-auto pl-6 sm:pl-10 md:pl-12"
+        >
           {/* Background continuous track line */}
-          <div className="absolute top-4 bottom-4 left-2 sm:left-4 w-[2px] bg-line rounded-full" />
+          <div className="absolute top-4 bottom-4 left-[11px] sm:left-[19px] md:left-[23px] w-[2px] bg-line rounded-full" />
 
           {/* Dynamic Blue fill line */}
           <motion.div
             style={{ scaleY: lineProgress }}
-            className="absolute top-4 bottom-4 left-2 sm:left-4 w-[2px] bg-gradient-to-b from-blue via-soft-blue to-blue rounded-full origin-top"
+            className="absolute top-4 bottom-4 left-[11px] sm:left-[19px] md:left-[23px] w-[2px] bg-gradient-to-b from-blue via-soft-blue to-blue rounded-full origin-top"
           />
 
           <div className="space-y-8 sm:space-y-10">
             {educationData.map((item, index) => (
               <div key={item.id} className="relative">
-                {/* Timeline Node Dot */}
-                <div className="absolute -left-6 sm:-left-10 top-6 -translate-x-1/2 flex items-center justify-center">
+                {/* Timeline Node Dot - Centered on track line */}
+                <div className="absolute -left-[13px] sm:-left-[21px] md:-left-[25px] top-6 -translate-x-1/2 flex items-center justify-center">
                   <div className="w-4 h-4 rounded-full bg-raised border-2 border-blue flex items-center justify-center shadow-md shadow-blue/20">
                     <div className="w-1.5 h-1.5 rounded-full bg-soft-blue" />
                   </div>

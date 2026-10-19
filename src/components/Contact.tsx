@@ -201,7 +201,7 @@ export default function Contact() {
             <h3 className="font-sora text-xl font-bold text-text mb-4">
               Get in touch
             </h3>
-            <p className="text-muted text-sm sm:text-base leading-relaxed mb-6">
+            <p className="text-muted text-sm sm:text-base leading-relaxed mb-6 text-justify">
               Feel free to reach out via email, phone, or messaging. I usually
               respond within 24 hours.
             </p>
@@ -246,7 +246,7 @@ export default function Contact() {
             <h3 className="font-sora text-xl font-bold text-text mb-2">
               Send a message
             </h3>
-            <p className="text-muted text-sm mb-6">
+            <p className="text-muted text-sm mb-6 text-justify">
               Fill in your details and let&apos;s start a conversation.
             </p>
 

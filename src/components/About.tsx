@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useInView } from "framer-motion";
 import {
   HiOutlineCodeBracket,
   HiOutlineServerStack,
   HiOutlinePuzzlePiece,
   HiOutlineCpuChip,
+  HiOutlineSparkles,
+  HiOutlineRocketLaunch,
+  HiOutlineCommandLine,
+  HiOutlineGlobeAlt,
 } from "react-icons/hi2";
 import {
   IoFootballOutline,
@@ -17,15 +21,25 @@ import {
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 
-interface MetricItemProps {
+interface MetricTileProps {
   value: number;
   label: string;
+  sublabel: string;
   suffix?: string;
+  icon: React.ComponentType<{ className?: string }>;
+  accentColor: string;
 }
 
-function MetricItem({ value, label, suffix = "+" }: MetricItemProps) {
+function MetricTile({
+  value,
+  label,
+  sublabel,
+  suffix = "+",
+  icon: Icon,
+  accentColor,
+}: MetricTileProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -53,12 +67,28 @@ function MetricItem({ value, label, suffix = "+" }: MetricItemProps) {
   }, [isInView, value]);
 
   return (
-    <div ref={ref} className="text-center sm:text-left py-2">
-      <div className="font-sora text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-        <span>{count}</span>
-        <span className="text-soft-blue ml-0.5 font-bold">{suffix}</span>
+    <div
+      ref={ref}
+      className="group/tile relative p-4 sm:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-blue/30 transition-all duration-300 flex items-start gap-4 overflow-hidden"
+    >
+      <div
+        className={`w-10 h-10 rounded-xl bg-surface border border-white/[0.08] flex items-center justify-center shrink-0 ${accentColor} transition-transform duration-300 group-hover/tile:scale-110 shadow-sm`}
+      >
+        <Icon className="w-5 h-5" />
       </div>
-      <p className="text-xs sm:text-sm text-muted mt-1.5 font-medium">{label}</p>
+
+      <div className="flex-1 min-w-0">
+        <div className="font-sora text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-baseline">
+          <span>{count}</span>
+          <span className="text-soft-blue ml-0.5 font-bold text-lg">{suffix}</span>
+        </div>
+        <p className="text-xs sm:text-sm font-semibold text-text group-hover/tile:text-white transition-colors truncate">
+          {label}
+        </p>
+        <p className="text-[11px] text-muted truncate mt-0.5">
+          {sublabel}
+        </p>
+      </div>
     </div>
   );
 }
@@ -113,6 +143,173 @@ const beyondTheCode = [
   },
 ];
 
+function MainNarrativeCard() {
+  const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpotlightPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }, []);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
+      className="relative p-6 sm:p-9 md:p-10 rounded-2xl bg-gradient-to-b from-[#141418]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-2xl shadow-black/40 overflow-hidden group hover:border-blue/30 transition-all duration-300"
+    >
+      {/* Dynamic Cursor-following Spotlight Effect on Hover */}
+      <div
+        className="pointer-events-none absolute -inset-px transition-opacity duration-300"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(550px circle at ${spotlightPos.x}px ${spotlightPos.y}px, rgba(59, 130, 246, 0.12), transparent 70%)`,
+        }}
+      />
+
+      {/* Subtle top edge light line */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/40 to-transparent pointer-events-none" />
+
+      {/* Top Architectural Console Header Bar */}
+      <div className="relative z-10 flex items-center justify-between pb-5 mb-7 border-b border-white/[0.06] flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5" aria-hidden="true">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+          </div>
+          <span className="text-xs font-mono text-soft-blue/80 tracking-tight flex items-center gap-1.5">
+            <HiOutlineCommandLine className="w-3.5 h-3.5" />
+            <span>~/engineer-profile.tsx</span>
+          </span>
+        </div>
+
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface/90 border border-line text-xs font-medium text-muted shadow-sm">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="text-text font-semibold">RUET EEE</span>
+          <span className="text-line">•</span>
+          <span>Full Stack Developer</span>
+        </div>
+      </div>
+
+      {/* Main Body: 2-Column Split (Story Narrative & Engineering DNA) */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+        {/* Left: Personality & Journey Narrative */}
+        <div className="lg:col-span-7 space-y-4 text-base sm:text-lg text-muted/95 leading-relaxed">
+          <p className="text-justify">
+            Hi, I&apos;m glad you&apos;re here. I&apos;m a{" "}
+            <span className="text-white font-medium underline decoration-blue/40 decoration-2 underline-offset-4">
+              precision-minded developer
+            </span>{" "}
+            who likes things done right—from the spacing between two buttons to how an API handles an edge case. I&apos;m friendly, easy to work with, and I&apos;d rather ask a good question early than guess.
+          </p>
+          <p className="text-justify">
+            My journey began in{" "}
+            <span className="text-white font-medium underline decoration-soft-blue/40 decoration-2 underline-offset-4">
+              Electrical and Electronic Engineering at RUET
+            </span>
+            , which shaped how I approach software: thinking logically, breaking down complex challenges, and finding practical solutions. Today, as a Full Stack Web Developer, I build modern web applications using{" "}
+            <span className="text-white font-medium">
+              Next.js, React, TypeScript, and Tailwind CSS
+            </span>
+            .
+          </p>
+
+          {/* Quick Pillars Badge Strip */}
+          <div className="pt-2 flex flex-wrap gap-2">
+            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-semibold text-soft-blue flex items-center gap-1.5">
+              <span>⚡</span> Logic-First Engineering
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-medium text-muted hover:text-white transition-colors flex items-center gap-1.5">
+              <span>🎯</span> Pixel Precision
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-medium text-muted hover:text-white transition-colors flex items-center gap-1.5">
+              <span>🚀</span> Next.js &amp; Turbopack
+            </span>
+          </div>
+        </div>
+
+        {/* Right: Engineering DNA Highlights Stack */}
+        <div className="lg:col-span-5 space-y-3">
+          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <span className="p-1 rounded-md bg-surface border border-line text-soft-blue group-hover/dna:text-blue transition-colors">
+                <HiOutlineCpuChip className="w-4 h-4" />
+              </span>
+              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
+                Circuit Logic → Web Code
+              </h4>
+            </div>
+            <p className="text-xs text-muted leading-relaxed">
+              Breaking down complex asynchronous state and APIs with the deterministic rigor of electrical circuits.
+            </p>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <span className="p-1 rounded-md bg-surface border border-line text-amber-300 group-hover/dna:text-amber-200 transition-colors">
+                <HiOutlineSparkles className="w-4 h-4" />
+              </span>
+              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
+                Zero Guesswork
+              </h4>
+            </div>
+            <p className="text-xs text-muted leading-relaxed">
+              Obsessive about spacing rhythm, responsive fluid layouts, and asking clarifying questions early.
+            </p>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
+            <div className="flex items-center gap-2.5 mb-1.5">
+              <span className="p-1 rounded-md bg-surface border border-line text-emerald-400 group-hover/dna:text-emerald-300 transition-colors">
+                <HiOutlineRocketLaunch className="w-4 h-4" />
+              </span>
+              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
+                Fast &amp; Production Ready
+              </h4>
+            </div>
+            <p className="text-xs text-muted leading-relaxed">
+              Shipping complete applications with type-safety, authentication, and live database integrations.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom: 3 Bento Metric Tiles */}
+      <div className="relative z-10 pt-8 mt-8 border-t border-white/[0.06] grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <MetricTile
+          value={4}
+          label="Projects Completed"
+          sublabel="Full stack web apps shipped"
+          icon={HiOutlineRocketLaunch}
+          accentColor="text-blue"
+        />
+        <MetricTile
+          value={10}
+          label="Tools & Technologies"
+          sublabel="Next.js, TS, React, Mongo"
+          icon={HiOutlineCommandLine}
+          accentColor="text-soft-blue"
+        />
+        <MetricTile
+          value={4}
+          label="Live Deployments"
+          sublabel="Production verified on Vercel"
+          icon={HiOutlineGlobeAlt}
+          accentColor="text-emerald-400"
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function About() {
   return (
     <section id="about" className="py-20 md:py-28 relative section-dimmer">
@@ -129,39 +326,7 @@ export default function About() {
 
         {/* 1. Main Narrative & Metrics Canvas */}
         <Reveal delay={0.1}>
-          <div className="relative p-7 sm:p-10 md:p-12 rounded-2xl bg-gradient-to-b from-[#131317]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-xl shadow-black/30 overflow-hidden group hover:border-line transition-all duration-300">
-            {/* Subtle top edge light line */}
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/30 to-transparent pointer-events-none" />
-
-            {/* Personality & Journey Narrative */}
-            <div className="max-w-3xl space-y-5 text-base sm:text-lg text-muted/95 leading-relaxed">
-              <p>
-                Hi, I&apos;m glad you&apos;re here. I&apos;m a{" "}
-                <span className="text-white font-medium">
-                  precision-minded developer
-                </span>{" "}
-                who likes things done right—from the spacing between two buttons to how an API handles an edge case. I&apos;m friendly, easy to work with, and I&apos;d rather ask a good question early than guess.
-              </p>
-              <p>
-                My journey began in{" "}
-                <span className="text-white font-medium">
-                  Electrical and Electronic Engineering at RUET
-                </span>
-                , which shaped how I approach software: thinking logically, breaking down complex challenges, and finding practical solutions. Today, as a Full Stack Web Developer, I build modern web applications using{" "}
-                <span className="text-white font-medium">
-                  Next.js, React, TypeScript, and Tailwind CSS
-                </span>
-                .
-              </p>
-            </div>
-
-            {/* Clean, Integrated Metrics Row */}
-            <div className="pt-8 mt-8 border-t border-line/60 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-              <MetricItem value={4} label="Projects completed" />
-              <MetricItem value={10} label="Tools and technologies" />
-              <MetricItem value={4} label="Live deployments" />
-            </div>
-          </div>
+          <MainNarrativeCard />
         </Reveal>
 
         {/* 2. Lower Split Panels: Work I Enjoy & Beyond the Code */}
@@ -176,7 +341,7 @@ export default function About() {
                 <h3 className="font-sora text-lg sm:text-xl font-bold text-white mb-2">
                   Work I Enjoy
                 </h3>
-                <p className="text-sm text-muted leading-relaxed mb-6">
+                <p className="text-sm text-muted leading-relaxed mb-6 text-justify">
                   Areas where I spend most of my time building and refining digital products.
                 </p>
 
@@ -193,7 +358,7 @@ export default function About() {
                         <h4 className="font-sora text-sm sm:text-base font-semibold text-text group-hover/item:text-white transition-colors">
                           {item.title}
                         </h4>
-                        <p className="text-xs sm:text-sm text-muted leading-relaxed mt-1">
+                        <p className="text-xs sm:text-sm text-muted leading-relaxed mt-1 text-justify">
                           {item.description}
                         </p>
                       </div>
@@ -214,7 +379,7 @@ export default function About() {
                 <h3 className="font-sora text-lg sm:text-xl font-bold text-white mb-2">
                   Beyond the Code
                 </h3>
-                <p className="text-sm text-muted leading-relaxed mb-6">
+                <p className="text-sm text-muted leading-relaxed mb-6 text-justify">
                   Personal pursuits that keep my thinking grounded, patient, and creative.
                 </p>
 
@@ -222,9 +387,8 @@ export default function About() {
                   {beyondTheCode.map((item, idx) => (
                     <div
                       key={item.title}
-                      className={`p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${
-                        idx === 4 ? "sm:col-span-2" : ""
-                      }`}
+                      className={`p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${idx === 4 ? "sm:col-span-2" : ""
+                        }`}
                     >
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="p-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-soft-blue group-hover/interest:text-blue transition-colors">
@@ -234,7 +398,7 @@ export default function About() {
                           {item.title}
                         </h4>
                       </div>
-                      <p className="text-xs text-muted leading-relaxed">
+                      <p className="text-xs text-muted leading-relaxed text-justify">
                         {item.description}
                       </p>
                     </div>

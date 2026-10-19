@@ -109,7 +109,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </h3>
 
         {/* 3-line Description Clamp with uniform height */}
-        <p className="text-xs sm:text-sm text-muted leading-relaxed line-clamp-3 h-[3.8rem] sm:h-[4.2rem] mb-5 overflow-hidden">
+        <p className="text-xs sm:text-sm text-muted leading-relaxed line-clamp-3 h-[3.8rem] sm:h-[4.2rem] mb-5 overflow-hidden text-justify">
           {project.description}
         </p>
       </div>
