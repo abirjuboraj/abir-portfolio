@@ -74,6 +74,7 @@ export default function PageLoader() {
   const [progress, setProgress] = useState(0);
 
   const prevPathnameRef = useRef(pathname);
+  const navTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // 1. Initial Site Load Animation (on first entry)
   useEffect(() => {
@@ -98,8 +99,14 @@ export default function PageLoader() {
   // 2. Intercept internal navigation clicks for instant response
   useEffect(() => {
     const handleLinkClick = (e: MouseEvent) => {
+      // Ignore non-primary or modified clicks (Ctrl, Cmd, Shift, Alt, middle-click)
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
       const target = (e.target as HTMLElement).closest("a");
       if (!target) return;
+
+      // Ignore download links
+      if (target.hasAttribute("download") || target.download) return;
 
       const href = target.getAttribute("href");
       if (!href) return;
@@ -107,31 +114,53 @@ export default function PageLoader() {
       // Ignore anchor links on the same page (#about, #contact, etc.)
       if (href.startsWith("#")) return;
 
-      // Ignore external or target="_blank" links
+      // Ignore external or non-http protocols or target="_blank" links
       if (
         target.target === "_blank" ||
         href.startsWith("http://") ||
         href.startsWith("https://") ||
         href.startsWith("mailto:") ||
-        href.startsWith("tel:")
+        href.startsWith("tel:") ||
+        href.startsWith("javascript:") ||
+        href.startsWith("blob:") ||
+        href.startsWith("data:")
+      ) {
+        return;
+      }
+
+      let targetUrl: URL;
+      try {
+        targetUrl = new URL(target.href, window.location.href);
+      } catch {
+        return;
+      }
+
+      // Ignore static downloadable or media files (e.g. .pdf, .zip, .png, etc.)
+      if (
+        /\.(pdf|zip|tar|gz|rar|7z|png|jpe?g|svg|webp|ico|gif|docx?|xlsx?|pptx?|txt|csv|mp3|mp4|webm)$/i.test(
+          targetUrl.pathname
+        )
       ) {
         return;
       }
 
       // If clicking internal link to another page (e.g. /projects/bazar-dor from /)
-      const targetUrl = new URL(target.href, window.location.href);
       if (
         targetUrl.origin === window.location.origin &&
         targetUrl.pathname !== pathname
       ) {
+        if (navTimerRef.current) {
+          clearInterval(navTimerRef.current);
+        }
+
         setNavLoading(true);
         setProgress(30);
 
         // Progress rapidly
-        const navTimer = setInterval(() => {
+        navTimerRef.current = setInterval(() => {
           setProgress((prev) => {
             if (prev >= 90) {
-              clearInterval(navTimer);
+              if (navTimerRef.current) clearInterval(navTimerRef.current);
               return 90;
             }
             return prev + 25;
@@ -141,13 +170,17 @@ export default function PageLoader() {
     };
 
     document.addEventListener("click", handleLinkClick, { capture: true });
-    return () => document.removeEventListener("click", handleLinkClick, { capture: true });
+    return () => {
+      document.removeEventListener("click", handleLinkClick, { capture: true });
+      if (navTimerRef.current) clearInterval(navTimerRef.current);
+    };
   }, [pathname]);
 
   // 3. When pathname changes, complete transition and fade out
   useEffect(() => {
     if (prevPathnameRef.current !== pathname) {
       prevPathnameRef.current = pathname;
+      if (navTimerRef.current) clearInterval(navTimerRef.current);
       setProgress(100);
       const timer = setTimeout(() => {
         setNavLoading(false);
@@ -155,6 +188,15 @@ export default function PageLoader() {
       return () => clearTimeout(timer);
     }
   }, [pathname]);
+
+  // 4. Safety fallback: ensure navLoading never hangs indefinitely if navigation aborts
+  useEffect(() => {
+    if (!navLoading) return;
+    const safetyTimer = setTimeout(() => {
+      setNavLoading(false);
+    }, 4000);
+    return () => clearTimeout(safetyTimer);
+  }, [navLoading]);
 
   const showLoader = initialLoading || navLoading;
 
