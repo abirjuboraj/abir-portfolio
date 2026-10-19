@@ -85,8 +85,8 @@ function MobileScoreBadge({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-20px" });
 
-  const radius = 16;
-  const stroke = 2.5;
+  const radius = 14;
+  const stroke = 2.2;
   const normalizedRadius = radius - stroke;
   const circumference = normalizedRadius * 2 * Math.PI;
   const targetOffset = circumference - (score / maxScore) * circumference;
@@ -94,9 +94,9 @@ function MobileScoreBadge({
   return (
     <div
       ref={ref}
-      className="sm:hidden inline-flex items-center gap-2 px-2.5 py-1 rounded-xl bg-surface/90 border border-line shadow-sm"
+      className="sm:hidden inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xl bg-surface/90 border border-line shadow-sm shrink-0"
     >
-      <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
+      <div className="relative w-7 h-7 flex items-center justify-center shrink-0">
         <svg
           height={radius * 2}
           width={radius * 2}
@@ -124,16 +124,16 @@ function MobileScoreBadge({
             cy={radius}
           />
         </svg>
-        <span className="absolute font-sora text-[8px] font-bold text-white tracking-tighter">
+        <span className="absolute font-sora text-[7.5px] font-bold text-white tracking-tighter">
           {score.toFixed(2)}
         </span>
       </div>
 
       <div className="flex flex-col text-left">
-        <span className="font-sora text-xs font-bold text-white leading-tight">
+        <span className="font-sora text-[11px] font-bold text-white leading-tight">
           {score.toFixed(2)}
         </span>
-        <span className="text-[10px] font-medium text-muted leading-tight whitespace-nowrap">
+        <span className="text-[9px] font-medium text-muted leading-tight whitespace-nowrap">
           {caption}
         </span>
       </div>
@@ -158,7 +158,7 @@ function TimelineCard({ item, index }: { item: EducationItem; index: number }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
-      className="relative p-5 sm:p-7 md:p-8 rounded-2xl bg-raised border border-line transition-all duration-300 hover:border-blue/40 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 overflow-hidden"
+      className="relative p-4 sm:p-7 md:p-8 rounded-2xl bg-raised border border-line transition-all duration-300 hover:border-blue/40 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30 overflow-hidden"
     >
       {/* Cursor-following Spotlight Effect on Hover */}
       <div
@@ -171,10 +171,10 @@ function TimelineCard({ item, index }: { item: EducationItem; index: number }) {
 
       <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6">
         <div className="flex-1 space-y-3 w-full">
-          {/* Top Row: Period Badge on Left, Row-wise Stat Badge on Right for Mobile */}
-          <div className="flex items-center justify-between gap-2.5 flex-wrap">
+          {/* Top Row: Period Badge on Left, Row-wise Stat Badge on Right for Mobile - Never Wrap */}
+          <div className="flex items-center justify-between gap-1.5 w-full">
             {/* Period Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface border border-line text-xs font-semibold text-soft-blue">
+            <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-surface border border-line text-[11px] sm:text-xs font-semibold text-soft-blue shrink-0">
               <HiOutlineCalendar className="w-3.5 h-3.5 text-blue" />
               <span>{item.period}</span>
             </div>
