@@ -195,31 +195,30 @@ function MainNarrativeCard() {
       {/* Subtle top edge light line */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/40 to-transparent pointer-events-none" />
 
-      {/* Top Console Header Bar (Minimal, badges removed) */}
-      <div className="relative z-10 flex items-center justify-between pb-4 mb-6 border-b border-white/[0.06]">
+      {/* Top Header: Clean Executive Profile Badge (No code snippet, no window dots, no active badge) */}
+      <div className="relative z-10 flex items-center justify-between pb-5 mb-6 border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5" aria-hidden="true">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue/20 to-blue/5 border border-blue/25 flex items-center justify-center text-soft-blue shadow-inner">
+            <span className="font-sora text-sm font-bold tracking-tight text-white">AH</span>
           </div>
-          <span className="text-xs font-mono text-soft-blue/80 tracking-tight flex items-center gap-1.5">
-            <HiOutlineCommandLine className="w-3.5 h-3.5" />
-            <span>~/about/personality.tsx</span>
-          </span>
+          <div>
+            <h3 className="font-sora text-sm sm:text-base font-bold text-white tracking-tight">
+              Md. Abir Hossen
+            </h3>
+            <p className="text-[11px] sm:text-xs text-muted">Engineering Mindset • Full Stack Craft</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted/60">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span>Active</span>
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs text-soft-blue">
+          <span>Full Stack Developer</span>
         </div>
       </div>
 
-      {/* Main Body: Personality Narrative with Accent Border */}
-      <div className="relative z-10 max-w-3xl sm:pl-5 sm:border-l-2 sm:border-blue/40 space-y-4">
+      {/* Main Body: Personality Narrative (No Underlines) */}
+      <div className="relative z-10 max-w-3xl space-y-4">
         <p className="text-justify text-base sm:text-lg md:text-[19px] text-text/90 leading-relaxed sm:leading-loose">
           Hi, I&apos;m glad you&apos;re here. I&apos;m a{" "}
-          <span className="text-white font-medium underline decoration-blue/40 decoration-2 underline-offset-4">
+          <span className="text-white font-semibold">
             precision-minded developer
           </span>{" "}
           who likes things done right—from the spacing between two buttons to how an API handles an edge case. I&apos;m friendly, easy to work with, and I&apos;d rather ask a good question early than guess.
@@ -272,7 +271,7 @@ function WorkAndInterestsShowcase() {
             }`}
           >
             <span>⚡</span>
-            <span>Work I Enjoy ({workIEnjoy.length})</span>
+            <span>Work I Enjoy</span>
           </button>
           <button
             type="button"
@@ -284,7 +283,7 @@ function WorkAndInterestsShowcase() {
             }`}
           >
             <span>🌱</span>
-            <span>Beyond the Code ({beyondTheCode.length})</span>
+            <span>Beyond the Code</span>
           </button>
         </div>
       </div>
@@ -334,17 +333,6 @@ function WorkAndInterestsShowcase() {
             ))}
           </div>
         )}
-
-        {/* Minimal Availability Footer for Mobile */}
-        <div className="pt-4 mt-5 border-t border-line/60 flex items-center justify-center gap-2 text-xs text-muted">
-          <span className="relative flex h-2 w-2 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="text-text font-medium text-[11px]">
-            Available for full-time & remote roles
-          </span>
-        </div>
       </div>
 
       {/* Desktop & Tablet Display (md and up): Sleek 2-column bento side-by-side */}
@@ -424,17 +412,6 @@ function WorkAndInterestsShowcase() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Availability Footer */}
-          <div className="pt-5 mt-5 border-t border-line/60 flex items-center gap-2.5 text-xs text-muted">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span className="text-text font-medium">
-              Available for full-time & remote roles
-            </span>
           </div>
         </div>
       </div>

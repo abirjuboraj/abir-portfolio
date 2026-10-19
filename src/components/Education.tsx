@@ -129,14 +129,9 @@ function MobileScoreBadge({
         </span>
       </div>
 
-      <div className="flex flex-col text-left">
-        <span className="font-sora text-[11px] font-bold text-white leading-tight">
-          {score.toFixed(2)}
-        </span>
-        <span className="text-[9px] font-medium text-muted leading-tight whitespace-nowrap">
-          {caption}
-        </span>
-      </div>
+      <span className="text-[10px] font-medium text-muted leading-tight whitespace-nowrap">
+        {caption}
+      </span>
     </div>
   );
 }

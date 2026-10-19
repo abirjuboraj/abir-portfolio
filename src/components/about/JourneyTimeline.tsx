@@ -48,17 +48,17 @@ export default function JourneyTimeline() {
     const el = scrollRef.current;
     if (!el) return;
     const scrollLeft = el.scrollLeft;
-    // Calculate index based on child item offsets
+    // Calculate index based on child item centers relative to container center
     const children = Array.from(el.querySelectorAll<HTMLElement>("li"));
     if (children.length === 0) return;
     
     let closestIndex = 0;
     let minDistance = Infinity;
-    const containerLeft = el.getBoundingClientRect().left;
+    const containerCenter = el.getBoundingClientRect().left + el.offsetWidth / 2;
 
     children.forEach((child, idx) => {
-      const childLeft = child.getBoundingClientRect().left;
-      const distance = Math.abs(childLeft - containerLeft);
+      const childCenter = child.getBoundingClientRect().left + child.offsetWidth / 2;
+      const distance = Math.abs(childCenter - containerCenter);
       if (distance < minDistance) {
         minDistance = distance;
         closestIndex = idx;
@@ -84,7 +84,7 @@ export default function JourneyTimeline() {
     if (targetItem) {
       targetItem.scrollIntoView({
         behavior: shouldReduceMotion ? "auto" : "smooth",
-        inline: "start",
+        inline: "center",
         block: "nearest",
       });
       setActiveIndex(index);
@@ -212,13 +212,17 @@ export default function JourneyTimeline() {
           role="region"
           aria-label="My journey to coding timeline. Use left and right arrow keys to navigate."
           onKeyDown={handleKeyDown}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 px-6 pt-1 pb-3 scroll-pl-6 scroll-pr-6 scroll-smooth focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 pt-1 pb-3 scroll-smooth focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
+            paddingLeft: "calc((100% - min(80vw, 310px)) / 2)",
+            paddingRight: "calc((100% - min(80vw, 310px)) / 2)",
+            scrollPaddingLeft: "calc((100% - min(80vw, 310px)) / 2)",
+            scrollPaddingRight: "calc((100% - min(80vw, 310px)) / 2)",
           }}
         >
-          <ol className="flex gap-3.5 w-max">
+          <ol className="flex gap-4 w-max">
             {milestones.map((milestone, idx) => {
               const isCurrent = milestone.state === "current";
               const isActive = activeIndex === idx;
@@ -226,7 +230,7 @@ export default function JourneyTimeline() {
               return (
                 <li
                   key={milestone.title}
-                  className="w-[82vw] max-w-[310px] shrink-0 snap-start flex flex-col justify-between p-5 rounded-2xl bg-surface/75 border border-white/[0.08] backdrop-blur-md shadow-lg transition-all duration-300 select-none"
+                  className="w-[80vw] max-w-[310px] shrink-0 snap-center flex flex-col justify-between p-5 rounded-2xl bg-surface/75 border border-white/[0.08] backdrop-blur-md shadow-lg transition-all duration-300 select-none"
                   style={{
                     borderColor: isActive
                       ? "rgba(59, 130, 246, 0.45)"
