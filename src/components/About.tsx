@@ -304,7 +304,7 @@ function WorkAndInterestsShowcase() {
                   <h4 className="font-sora text-sm font-semibold text-text">
                     {item.title}
                   </h4>
-                  <p className="text-xs text-muted leading-relaxed mt-0.5">
+                  <p className="text-[13px] sm:text-sm text-muted/95 leading-relaxed mt-0.5">
                     {item.description}
                   </p>
                 </div>
@@ -316,17 +316,17 @@ function WorkAndInterestsShowcase() {
             {beyondTheCode.map((item) => (
               <div
                 key={item.title}
-                className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 transition-all duration-200"
+                className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 transition-all duration-200"
               >
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1.5">
                   <span className="p-1 rounded-md bg-surface border border-white/[0.08] text-soft-blue">
                     {item.icon}
                   </span>
-                  <h4 className="font-sora text-xs font-semibold text-text truncate">
+                  <h4 className="font-sora text-[13px] sm:text-sm font-semibold text-text truncate">
                     {item.title}
                   </h4>
                 </div>
-                <p className="text-[11px] text-muted leading-relaxed">
+                <p className="text-xs sm:text-[13px] text-muted/95 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -365,7 +365,7 @@ function WorkAndInterestsShowcase() {
                     <h4 className="font-sora text-sm sm:text-base font-semibold text-text group-hover/item:text-white transition-colors">
                       {item.title}
                     </h4>
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed mt-0.5">
+                    <p className="text-sm text-muted/95 leading-relaxed mt-1">
                       {item.description}
                     </p>
                   </div>
@@ -394,19 +394,19 @@ function WorkAndInterestsShowcase() {
               {beyondTheCode.map((item, idx) => (
                 <div
                   key={item.title}
-                  className={`p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${
+                  className={`p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${
                     idx === 4 ? "sm:col-span-2" : ""
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <span className="p-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-soft-blue group-hover/interest:text-blue transition-colors">
                       {item.icon}
                     </span>
-                    <h4 className="font-sora text-xs sm:text-sm font-semibold text-text group-hover/interest:text-white transition-colors">
+                    <h4 className="font-sora text-sm font-semibold text-text group-hover/interest:text-white transition-colors">
                       {item.title}
                     </h4>
                   </div>
-                  <p className="text-xs text-muted leading-relaxed">
+                  <p className="text-[13px] sm:text-sm text-muted/95 leading-relaxed mt-0.5">
                     {item.description}
                   </p>
                 </div>

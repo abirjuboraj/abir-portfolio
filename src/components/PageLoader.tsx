@@ -29,18 +29,15 @@ export function LoaderVisual({
         </span>
       </motion.div>
 
-      {/* Centerpiece Name: "Abir" with Luxury Typography */}
+      {/* Centerpiece Name: "Abir Hossen" with Eye-Catchy Typography */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 10 }}
+        initial={{ opacity: 0, scale: 0.94, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="relative flex items-baseline"
+        className="relative flex items-center justify-center text-center"
       >
-        <span className="font-sora text-6xl sm:text-7xl md:text-8xl font-extrabold tracking-tight bg-gradient-to-r from-white via-soft-blue to-blue bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(59,130,246,0.35)]">
-          Abir
-        </span>
-        <span className="font-sora text-6xl sm:text-7xl md:text-8xl font-extrabold text-blue inline-block animate-pulse ml-0.5">
-          .
+        <span className="font-sora text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white via-soft-blue via-[#60a5fa] to-blue bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(59,130,246,0.45)]">
+          Abir Hossen
         </span>
       </motion.div>
 

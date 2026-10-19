@@ -195,25 +195,30 @@ export default function Navbar() {
         }`}
         style={{ paddingTop: "max(12px, env(safe-area-inset-top))" }}
       >
-        <div className="max-w-[1120px] mx-auto px-6 flex items-center justify-between">
+        <div className="max-w-[1120px] mx-auto px-6 relative flex items-center justify-between min-h-[44px]">
           {/* Logo / Monogram Badge */}
           <Link
             href={getHref("#home")}
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue rounded-xl"
+            className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue rounded-xl z-10 shrink-0"
             aria-label="Md. Abir Hossen Home"
             onClick={(e) => handleNavClick(e, "#home")}
           >
-            <div className="w-10 h-10 rounded-xl bg-white text-bg font-sora font-extrabold flex items-center justify-center text-sm shadow-md tracking-tight group-hover:scale-105 transition-transform duration-200">
-              AH
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-b from-[#181820] to-[#0e0e12] border border-white/[0.12] group-hover:border-blue/50 flex items-center justify-center shadow-lg shadow-black/40 overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_16px_rgba(59,130,246,0.35)] group-hover:scale-105 shrink-0">
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/60 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue/20 via-transparent to-soft-blue/10 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <span className="relative z-10 font-sora text-xs sm:text-sm font-extrabold tracking-tight text-white group-hover:text-soft-blue transition-colors">
+                AH
+              </span>
             </div>
-            <span className="hidden lg:inline-block font-sora text-sm font-semibold text-text tracking-tight group-hover:text-soft-blue transition-colors">
-              {siteConfig.shortName}
+            {/* Name: Visible for Desktop only (hidden on mobile and tablet) */}
+            <span className="hidden lg:inline-block font-sora text-sm sm:text-base font-bold text-white tracking-tight group-hover:text-soft-blue transition-colors whitespace-nowrap">
+              Abir Hossen
             </span>
           </Link>
 
-          {/* Navigation Links (Visible on Tablet and Desktop) */}
+          {/* Navigation Links (Visible on Tablet and Desktop - Locked at exact middle of viewport) */}
           <nav
-            className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-raised/70 border border-line rounded-full px-2 lg:px-3 py-1 lg:py-1.5 backdrop-blur-sm"
+            className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-raised/80 border border-line rounded-full px-1.5 md:px-2 lg:px-3 py-1 lg:py-1.5 backdrop-blur-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-auto shadow-sm"
             aria-label="Primary Navigation"
           >
             {navItems.map((item) => {
@@ -223,7 +228,7 @@ export default function Navbar() {
                   key={item.name}
                   href={getHref(item.href)}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-2.5 lg:px-4 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${
+                  className={`relative px-2 md:px-2.5 lg:px-3.5 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap ${
                     isActive
                       ? "text-white"
                       : "text-muted hover:text-text hover:bg-white/5"
@@ -243,7 +248,7 @@ export default function Navbar() {
           </nav>
 
           {/* Tablet & Desktop Right CTA: Resume Button (appears when scrolled past home) + Hire Me */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-2.5">
+          <div className="hidden md:flex items-center gap-2 lg:gap-2.5 z-10 shrink-0">
             <AnimatePresence>
               {pastHome && (
                 <motion.div
@@ -392,19 +397,11 @@ export default function Navbar() {
                   );
                 })}
 
-                <div className="pt-2.5 mt-1 border-t border-line/60 grid grid-cols-2 gap-2">
-                  <a
-                    href="/resume.pdf"
-                    download="Abir_Hossen_Resume.pdf"
-                    className="py-2.5 px-3 rounded-xl text-center text-xs sm:text-sm font-medium text-text bg-raised hover:bg-surface border border-line transition-colors flex items-center justify-center gap-1.5 shadow-sm"
-                  >
-                    <HiOutlineArrowDownTray className="w-4 h-4 text-soft-blue" />
-                    <span>Resume</span>
-                  </a>
+                <div className="pt-2.5 mt-1 border-t border-line/60">
                   <Link
                     href={getHref("#contact")}
                     onClick={(e) => handleNavClick(e, "#contact")}
-                    className="py-2.5 px-3 rounded-xl text-center text-xs sm:text-sm font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-md shadow-blue/20"
+                    className="w-full py-2.5 px-3 rounded-xl text-center text-xs sm:text-sm font-semibold text-white bg-blue hover:bg-blue/90 transition-colors flex items-center justify-center shadow-md shadow-blue/20"
                   >
                     Hire Me
                   </Link>
