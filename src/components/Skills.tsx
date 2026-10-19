@@ -13,7 +13,7 @@ import {
   SiGithub,
   SiVercel,
 } from "react-icons/si";
-import { HiShieldCheck } from "react-icons/hi2";
+import { HiShieldCheck, HiOutlineChevronDown } from "react-icons/hi2";
 import SectionHeading from "./SectionHeading";
 import { skillsData, Skill, SkillCategory } from "@/data/skills";
 
@@ -130,6 +130,7 @@ function SkillCard({ skill }: { skill: Skill }) {
 
 export default function Skills() {
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
+  const [showAllMobile, setShowAllMobile] = useState<boolean>(false);
 
   const categories: Array<"All" | SkillCategory> = [
     "All",
@@ -189,7 +190,10 @@ export default function Skills() {
               <button
                 key={cat}
                 type="button"
-                onClick={() => setSelectedFilter(cat)}
+                onClick={() => {
+                  setSelectedFilter(cat);
+                  setShowAllMobile(false);
+                }}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue ${
                   isSelected
                     ? "bg-blue text-white shadow-md shadow-blue/25"
@@ -217,20 +221,44 @@ export default function Skills() {
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
         >
           <AnimatePresence mode="popLayout">
-            {filteredSkills.map((skill) => (
-              <motion.div
-                key={skill.name}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-              >
-                <SkillCard skill={skill} />
-              </motion.div>
-            ))}
+            {filteredSkills.map((skill, index) => {
+              const isHiddenOnMobile =
+                selectedFilter === "All" && !showAllMobile && index >= 4;
+
+              return (
+                <motion.div
+                  key={skill.name}
+                  layout
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.3 }}
+                  className={isHiddenOnMobile ? "hidden sm:block" : "block"}
+                >
+                  <SkillCard skill={skill} />
+                </motion.div>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
+
+        {/* Mobile "See more" / "See less" button - Only visible in mobile view when "All" tab has > 4 cards */}
+        {selectedFilter === "All" && filteredSkills.length > 4 && (
+          <div className="sm:hidden flex justify-center mt-7">
+            <button
+              type="button"
+              onClick={() => setShowAllMobile((prev) => !prev)}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-text hover:text-white bg-raised hover:bg-surface border border-line transition-all duration-200 active:scale-95 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+            >
+              <span>{showAllMobile ? "See less" : "See more"}</span>
+              <HiOutlineChevronDown
+                className={`w-3.5 h-3.5 text-soft-blue transition-transform duration-300 ${
+                  showAllMobile ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

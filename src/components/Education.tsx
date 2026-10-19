@@ -85,7 +85,7 @@ function MobileScoreBadge({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-20px" });
 
-  const radius = 15;
+  const radius = 16;
   const stroke = 2.5;
   const normalizedRadius = radius - stroke;
   const circumference = normalizedRadius * 2 * Math.PI;
@@ -96,7 +96,7 @@ function MobileScoreBadge({
       ref={ref}
       className="sm:hidden inline-flex items-center gap-2 px-2.5 py-1 rounded-xl bg-surface/90 border border-line shadow-sm"
     >
-      <div className="relative w-7 h-7 flex items-center justify-center shrink-0">
+      <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
         <svg
           height={radius * 2}
           width={radius * 2}
@@ -124,8 +124,8 @@ function MobileScoreBadge({
             cy={radius}
           />
         </svg>
-        <span className="absolute font-sora text-[9px] font-bold text-white">
-          {score.toFixed(1)}
+        <span className="absolute font-sora text-[8px] font-bold text-white tracking-tighter">
+          {score.toFixed(2)}
         </span>
       </div>
 
