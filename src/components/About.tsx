@@ -7,7 +7,6 @@ import {
   HiOutlineServerStack,
   HiOutlinePuzzlePiece,
   HiOutlineCpuChip,
-  HiOutlineSparkles,
   HiOutlineRocketLaunch,
   HiOutlineCommandLine,
   HiOutlineGlobeAlt,
@@ -20,6 +19,32 @@ import {
 } from "react-icons/io5";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import JourneyTimeline from "./about/JourneyTimeline";
+
+export function AboutSectionDivider({ label }: { label: string }) {
+  return (
+    <div className="relative w-full flex items-center justify-center gap-3 my-8 sm:my-12">
+      {/* Soft center glow */}
+      <div
+        className="absolute w-72 sm:w-96 h-8 bg-blue/20 blur-xl rounded-full pointer-events-none -translate-x-1/2 left-1/2"
+        aria-hidden="true"
+      />
+
+      {/* Left horizontal line */}
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-blue/40 to-blue pointer-events-none" />
+
+      {/* Subtitle centered on background-colored pad */}
+      <div className="relative z-10 px-4 py-1 rounded-full bg-bg border border-white/[0.08] shadow-sm shrink-0">
+        <span className="font-mono text-[11px] sm:text-xs font-semibold tracking-[0.22em] text-muted uppercase">
+          {label}
+        </span>
+      </div>
+
+      {/* Right horizontal line */}
+      <div className="flex-1 h-px bg-gradient-to-l from-transparent via-blue/40 to-blue pointer-events-none" />
+    </div>
+  );
+}
 
 interface MetricTileProps {
   value: number;
@@ -69,23 +94,23 @@ function MetricTile({
   return (
     <div
       ref={ref}
-      className="group/tile relative p-4 sm:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-blue/30 transition-all duration-300 flex items-start gap-4 overflow-hidden"
+      className="group/tile relative p-2.5 sm:p-4 md:p-5 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.06] hover:border-blue/30 transition-all duration-300 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3.5 md:gap-4 overflow-hidden"
     >
       <div
-        className={`w-10 h-10 rounded-xl bg-surface border border-white/[0.08] flex items-center justify-center shrink-0 ${accentColor} transition-transform duration-300 group-hover/tile:scale-110 shadow-sm`}
+        className={`w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-surface border border-white/[0.08] flex items-center justify-center shrink-0 ${accentColor} transition-transform duration-300 group-hover/tile:scale-110 shadow-sm`}
       >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
       </div>
 
-      <div className="flex-1 min-w-0">
-        <div className="font-sora text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-baseline">
+      <div className="flex-1 min-w-0 w-full">
+        <div className="font-sora text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight flex items-baseline justify-center sm:justify-start">
           <span>{count}</span>
-          <span className="text-soft-blue ml-0.5 font-bold text-lg">{suffix}</span>
+          <span className="text-soft-blue ml-0.5 font-bold text-xs sm:text-base md:text-lg">{suffix}</span>
         </div>
-        <p className="text-xs sm:text-sm font-semibold text-text group-hover/tile:text-white transition-colors truncate">
+        <p className="text-[11px] sm:text-xs md:text-sm font-semibold text-text group-hover/tile:text-white transition-colors leading-tight line-clamp-2 mt-0.5">
           {label}
         </p>
-        <p className="text-[11px] text-muted truncate mt-0.5">
+        <p className="text-[11px] text-muted truncate mt-0.5 hidden md:block">
           {sublabel}
         </p>
       </div>
@@ -97,20 +122,17 @@ const workIEnjoy = [
   {
     title: "Frontend Craft",
     icon: <HiOutlineCodeBracket className="w-4 h-4 text-soft-blue" />,
-    description:
-      "Building responsive, accessible interfaces with React, Next.js, and Tailwind CSS—focusing on fluid interactions and visual clarity.",
+    description: "Responsive, accessible interfaces in React & Next.js with visual precision.",
   },
   {
     title: "Full Stack Architecture",
     icon: <HiOutlineServerStack className="w-4 h-4 text-soft-blue" />,
-    description:
-      "Connecting clean user interfaces to reliable backend logic, type-safe APIs, and structured data with MongoDB.",
+    description: "Type-safe APIs, authentication, and reliable database schemas with MongoDB.",
   },
   {
     title: "Problem Solving",
     icon: <HiOutlinePuzzlePiece className="w-4 h-4 text-soft-blue" />,
-    description:
-      "Applying RUET engineering fundamentals to break down complex challenges, diagnose root causes, and find practical solutions.",
+    description: "Applying RUET engineering rigor to break down complex architectural challenges.",
   },
 ];
 
@@ -118,28 +140,27 @@ const beyondTheCode = [
   {
     title: "Football",
     icon: <IoFootballOutline className="w-4 h-4 text-soft-blue" />,
-    description: "Tactical nuances, teamwork, and high-pressure moments.",
+    description: "Tactical teamwork and high-energy play.",
   },
   {
     title: "Science",
     icon: <IoFlaskOutline className="w-4 h-4 text-soft-blue" />,
-    description: "Curiosity for physical laws and how the universe works.",
+    description: "Curiosity for physical laws and universal principles.",
   },
   {
     title: "Gardening",
     icon: <IoLeafOutline className="w-4 h-4 text-soft-blue" />,
-    description: "Patience, steady care, and nurturing organic growth.",
+    description: "Patience, steady care, and organic growth.",
   },
   {
     title: "Cinema",
     icon: <IoFilmOutline className="w-4 h-4 text-soft-blue" />,
-    description: "Visual storytelling, atmosphere, and thoughtful pacing.",
+    description: "Visual storytelling and thoughtful atmosphere.",
   },
   {
     title: "IoT & Hardware",
     icon: <HiOutlineCpuChip className="w-4 h-4 text-soft-blue" />,
-    description:
-      "Building small IoT projects and experimenting with microcontrollers in spare time.",
+    description: "Experimenting with microcontrollers and circuits.",
   },
 ];
 
@@ -174,8 +195,8 @@ function MainNarrativeCard() {
       {/* Subtle top edge light line */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/40 to-transparent pointer-events-none" />
 
-      {/* Top Architectural Console Header Bar */}
-      <div className="relative z-10 flex items-center justify-between pb-5 mb-7 border-b border-white/[0.06] flex-wrap gap-3">
+      {/* Top Console Header Bar (Minimal, badges removed) */}
+      <div className="relative z-10 flex items-center justify-between pb-4 mb-6 border-b border-white/[0.06]">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5" aria-hidden="true">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
@@ -184,106 +205,29 @@ function MainNarrativeCard() {
           </div>
           <span className="text-xs font-mono text-soft-blue/80 tracking-tight flex items-center gap-1.5">
             <HiOutlineCommandLine className="w-3.5 h-3.5" />
-            <span>~/engineer-profile.tsx</span>
+            <span>~/about/personality.tsx</span>
           </span>
         </div>
 
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface/90 border border-line text-xs font-medium text-muted shadow-sm">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="text-text font-semibold">RUET EEE</span>
-          <span className="text-line">•</span>
-          <span>Full Stack Developer</span>
+        <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted/60">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>Active</span>
         </div>
       </div>
 
-      {/* Main Body: 2-Column Split (Story Narrative & Engineering DNA) */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-        {/* Left: Personality & Journey Narrative */}
-        <div className="lg:col-span-7 space-y-4 text-base sm:text-lg text-muted/95 leading-relaxed">
-          <p className="text-justify">
-            Hi, I&apos;m glad you&apos;re here. I&apos;m a{" "}
-            <span className="text-white font-medium underline decoration-blue/40 decoration-2 underline-offset-4">
-              precision-minded developer
-            </span>{" "}
-            who likes things done right—from the spacing between two buttons to how an API handles an edge case. I&apos;m friendly, easy to work with, and I&apos;d rather ask a good question early than guess.
-          </p>
-          <p className="text-justify">
-            My journey began in{" "}
-            <span className="text-white font-medium underline decoration-soft-blue/40 decoration-2 underline-offset-4">
-              Electrical and Electronic Engineering at RUET
-            </span>
-            , which shaped how I approach software: thinking logically, breaking down complex challenges, and finding practical solutions. Today, as a Full Stack Web Developer, I build modern web applications using{" "}
-            <span className="text-white font-medium">
-              Next.js, React, TypeScript, and Tailwind CSS
-            </span>
-            .
-          </p>
-
-          {/* Quick Pillars Badge Strip */}
-          <div className="pt-2 flex flex-wrap gap-2">
-            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-semibold text-soft-blue flex items-center gap-1.5">
-              <span>⚡</span> Logic-First Engineering
-            </span>
-            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-medium text-muted hover:text-white transition-colors flex items-center gap-1.5">
-              <span>🎯</span> Pixel Precision
-            </span>
-            <span className="px-2.5 py-1 rounded-lg bg-surface border border-line text-xs font-medium text-muted hover:text-white transition-colors flex items-center gap-1.5">
-              <span>🚀</span> Next.js &amp; Turbopack
-            </span>
-          </div>
-        </div>
-
-        {/* Right: Engineering DNA Highlights Stack */}
-        <div className="lg:col-span-5 space-y-3">
-          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <span className="p-1 rounded-md bg-surface border border-line text-soft-blue group-hover/dna:text-blue transition-colors">
-                <HiOutlineCpuChip className="w-4 h-4" />
-              </span>
-              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
-                Circuit Logic → Web Code
-              </h4>
-            </div>
-            <p className="text-xs text-muted leading-relaxed">
-              Breaking down complex asynchronous state and APIs with the deterministic rigor of electrical circuits.
-            </p>
-          </div>
-
-          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <span className="p-1 rounded-md bg-surface border border-line text-amber-300 group-hover/dna:text-amber-200 transition-colors">
-                <HiOutlineSparkles className="w-4 h-4" />
-              </span>
-              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
-                Zero Guesswork
-              </h4>
-            </div>
-            <p className="text-xs text-muted leading-relaxed">
-              Obsessive about spacing rhythm, responsive fluid layouts, and asking clarifying questions early.
-            </p>
-          </div>
-
-          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/dna">
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <span className="p-1 rounded-md bg-surface border border-line text-emerald-400 group-hover/dna:text-emerald-300 transition-colors">
-                <HiOutlineRocketLaunch className="w-4 h-4" />
-              </span>
-              <h4 className="font-sora text-sm font-semibold text-text group-hover/dna:text-white transition-colors">
-                Fast &amp; Production Ready
-              </h4>
-            </div>
-            <p className="text-xs text-muted leading-relaxed">
-              Shipping complete applications with type-safety, authentication, and live database integrations.
-            </p>
-          </div>
-        </div>
+      {/* Main Body: Personality Narrative with Accent Border */}
+      <div className="relative z-10 max-w-3xl sm:pl-5 sm:border-l-2 sm:border-blue/40 space-y-4">
+        <p className="text-justify text-base sm:text-lg md:text-[19px] text-text/90 leading-relaxed sm:leading-loose">
+          Hi, I&apos;m glad you&apos;re here. I&apos;m a{" "}
+          <span className="text-white font-medium underline decoration-blue/40 decoration-2 underline-offset-4">
+            precision-minded developer
+          </span>{" "}
+          who likes things done right—from the spacing between two buttons to how an API handles an edge case. I&apos;m friendly, easy to work with, and I&apos;d rather ask a good question early than guess.
+        </p>
       </div>
 
-      {/* Bottom: 3 Bento Metric Tiles */}
-      <div className="relative z-10 pt-8 mt-8 border-t border-white/[0.06] grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+      {/* Bottom: 3 Bento Metric Tiles (Horizontal on Mobile & Desktop) */}
+      <div className="relative z-10 pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-white/[0.06] grid grid-cols-3 gap-2 sm:gap-4 md:gap-6">
         <MetricTile
           value={4}
           label="Projects Completed"
@@ -310,6 +254,194 @@ function MainNarrativeCard() {
   );
 }
 
+function WorkAndInterestsShowcase() {
+  const [activeTab, setActiveTab] = useState<"work" | "beyond">("work");
+
+  return (
+    <div className="w-full">
+      {/* Mobile Segmented Toggle (below md to keep height compact) */}
+      <div className="flex md:hidden justify-center mb-5">
+        <div className="inline-flex p-1 rounded-xl bg-surface border border-white/[0.08] shadow-inner">
+          <button
+            type="button"
+            onClick={() => setActiveTab("work")}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
+              activeTab === "work"
+                ? "bg-blue/20 text-white border border-blue/40 shadow-sm"
+                : "text-muted hover:text-white"
+            }`}
+          >
+            <span>⚡</span>
+            <span>Work I Enjoy ({workIEnjoy.length})</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("beyond")}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 ${
+              activeTab === "beyond"
+                ? "bg-blue/20 text-white border border-blue/40 shadow-sm"
+                : "text-muted hover:text-white"
+            }`}
+          >
+            <span>🌱</span>
+            <span>Beyond the Code ({beyondTheCode.length})</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Compact Content (below md) */}
+      <div className="block md:hidden">
+        {activeTab === "work" ? (
+          <div className="space-y-2.5">
+            {workIEnjoy.map((item) => (
+              <div
+                key={item.title}
+                className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 transition-all duration-200"
+              >
+                <div className="w-8 h-8 rounded-lg bg-surface border border-white/[0.08] flex items-center justify-center text-soft-blue shrink-0 mt-0.5">
+                  {item.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-sora text-sm font-semibold text-text">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs text-muted leading-relaxed mt-0.5">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {beyondTheCode.map((item) => (
+              <div
+                key={item.title}
+                className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-blue/30 transition-all duration-200"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="p-1 rounded-md bg-surface border border-white/[0.08] text-soft-blue">
+                    {item.icon}
+                  </span>
+                  <h4 className="font-sora text-xs font-semibold text-text truncate">
+                    {item.title}
+                  </h4>
+                </div>
+                <p className="text-[11px] text-muted leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Minimal Availability Footer for Mobile */}
+        <div className="pt-4 mt-5 border-t border-line/60 flex items-center justify-center gap-2 text-xs text-muted">
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+          </span>
+          <span className="text-text font-medium text-[11px]">
+            Available for full-time & remote roles
+          </span>
+        </div>
+      </div>
+
+      {/* Desktop & Tablet Display (md and up): Sleek 2-column bento side-by-side */}
+      <div className="hidden md:grid md:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+        {/* Left Panel: Work I Enjoy */}
+        <div className="relative h-full p-7 sm:p-8 rounded-2xl bg-gradient-to-b from-[#131317]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-xl shadow-black/30 overflow-hidden flex flex-col justify-between hover:border-blue/30 transition-all duration-300 group">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/25 to-transparent pointer-events-none" />
+
+          <div>
+            <div className="flex items-center gap-2.5 mb-2">
+              <span className="w-2 h-2 rounded-full bg-blue" />
+              <h3 className="font-sora text-lg sm:text-xl font-bold text-white">
+                Work I Enjoy
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-muted leading-relaxed mb-6">
+              Areas where I build, architect, and refine modern web applications.
+            </p>
+
+            <div className="space-y-3">
+              {workIEnjoy.map((item) => (
+                <div
+                  key={item.title}
+                  className="group/item flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-surface border border-white/[0.08] flex items-center justify-center text-soft-blue group-hover/item:text-blue group-hover/item:border-blue/30 transition-colors shrink-0 mt-0.5">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-sora text-sm sm:text-base font-semibold text-text group-hover/item:text-white transition-colors">
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-muted leading-relaxed mt-0.5">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Panel: Beyond the Code */}
+        <div className="relative h-full p-7 sm:p-8 rounded-2xl bg-gradient-to-b from-[#131317]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-xl shadow-black/30 overflow-hidden flex flex-col justify-between hover:border-blue/30 transition-all duration-300 group">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/25 to-transparent pointer-events-none" />
+
+          <div>
+            <div className="flex items-center gap-2.5 mb-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <h3 className="font-sora text-lg sm:text-xl font-bold text-white">
+                Beyond the Code
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-muted leading-relaxed mb-6">
+              Personal pursuits that keep my thinking grounded and creative.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {beyondTheCode.map((item, idx) => (
+                <div
+                  key={item.title}
+                  className={`p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${
+                    idx === 4 ? "sm:col-span-2" : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="p-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-soft-blue group-hover/interest:text-blue transition-colors">
+                      {item.icon}
+                    </span>
+                    <h4 className="font-sora text-xs sm:text-sm font-semibold text-text group-hover/interest:text-white transition-colors">
+                      {item.title}
+                    </h4>
+                  </div>
+                  <p className="text-xs text-muted leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Availability Footer */}
+          <div className="pt-5 mt-5 border-t border-line/60 flex items-center gap-2.5 text-xs text-muted">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span className="text-text font-medium">
+              Available for full-time & remote roles
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function About() {
   return (
     <section id="about" className="py-20 md:py-28 relative section-dimmer">
@@ -324,101 +456,26 @@ export default function About() {
           subtitle="From engineering principles to building meaningful digital products."
         />
 
-        {/* 1. Main Narrative & Metrics Canvas */}
+        {/* 1. Personality Subtitle Divider */}
+        <AboutSectionDivider label="Personality & Approach" />
+
+        {/* 2. Main Narrative & Metrics Canvas */}
         <Reveal delay={0.1}>
           <MainNarrativeCard />
         </Reveal>
 
-        {/* 2. Lower Split Panels: Work I Enjoy & Beyond the Code */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mt-6 lg:mt-8 items-stretch">
-          {/* Left Panel: Work I Enjoy */}
-          <Reveal delay={0.2} className="h-full">
-            <div className="relative h-full p-7 sm:p-8 rounded-2xl bg-gradient-to-b from-[#131317]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-xl shadow-black/30 overflow-hidden flex flex-col justify-between hover:border-blue/30 transition-all duration-300 group">
-              {/* Subtle top edge light line */}
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/25 to-transparent pointer-events-none" />
+        {/* 3. Journey Timeline (includes its own symmetrical subtitle divider) */}
+        <Reveal delay={0.15}>
+          <JourneyTimeline />
+        </Reveal>
 
-              <div>
-                <h3 className="font-sora text-lg sm:text-xl font-bold text-white mb-2">
-                  Work I Enjoy
-                </h3>
-                <p className="text-sm text-muted leading-relaxed mb-6 text-justify">
-                  Areas where I spend most of my time building and refining digital products.
-                </p>
+        {/* 4. Focus & Pursuits Subtitle Divider */}
+        <AboutSectionDivider label="Focus & Pursuits" />
 
-                <div className="space-y-3.5">
-                  {workIEnjoy.map((item) => (
-                    <div
-                      key={item.title}
-                      className="group/item flex items-start gap-3.5 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200"
-                    >
-                      <div className="w-9 h-9 rounded-lg bg-surface border border-white/[0.08] flex items-center justify-center text-soft-blue group-hover/item:text-blue group-hover/item:border-blue/30 transition-colors shrink-0 mt-0.5">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <h4 className="font-sora text-sm sm:text-base font-semibold text-text group-hover/item:text-white transition-colors">
-                          {item.title}
-                        </h4>
-                        <p className="text-xs sm:text-sm text-muted leading-relaxed mt-1 text-justify">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Right Panel: Beyond the Code */}
-          <Reveal delay={0.3} className="h-full">
-            <div className="relative h-full p-7 sm:p-8 rounded-2xl bg-gradient-to-b from-[#131317]/95 via-[#101014]/95 to-[#0b0b0e]/95 border border-white/[0.08] backdrop-blur-md shadow-xl shadow-black/30 overflow-hidden flex flex-col justify-between hover:border-blue/30 transition-all duration-300 group">
-              {/* Subtle top edge light line */}
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-blue/25 to-transparent pointer-events-none" />
-
-              <div>
-                <h3 className="font-sora text-lg sm:text-xl font-bold text-white mb-2">
-                  Beyond the Code
-                </h3>
-                <p className="text-sm text-muted leading-relaxed mb-6 text-justify">
-                  Personal pursuits that keep my thinking grounded, patient, and creative.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {beyondTheCode.map((item, idx) => (
-                    <div
-                      key={item.title}
-                      className={`p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-blue/30 hover:bg-white/[0.04] transition-all duration-200 group/interest ${idx === 4 ? "sm:col-span-2" : ""
-                        }`}
-                    >
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="p-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-soft-blue group-hover/interest:text-blue transition-colors">
-                          {item.icon}
-                        </span>
-                        <h4 className="font-sora text-sm font-semibold text-text group-hover/interest:text-white transition-colors">
-                          {item.title}
-                        </h4>
-                      </div>
-                      <p className="text-xs text-muted leading-relaxed text-justify">
-                        {item.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Minimal Availability Footer */}
-              <div className="pt-6 mt-6 border-t border-line/60 flex items-center gap-2.5 text-xs text-muted">
-                <span className="relative flex h-2 w-2 shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-text font-medium">
-                  Available for full-time & remote roles
-                </span>
-              </div>
-            </div>
-          </Reveal>
-        </div>
+        {/* 5. Work & Interests Showcase */}
+        <Reveal delay={0.2}>
+          <WorkAndInterestsShowcase />
+        </Reveal>
       </div>
     </section>
   );
