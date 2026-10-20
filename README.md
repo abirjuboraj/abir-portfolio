@@ -1,7 +1,7 @@
 # Md. Abir Hossen
 
 > **Full Stack Developer** &bull; **Electrical & Electronic Engineering (RUET)**  
-> 📍 Rajshahi, Bangladesh &bull; 🌐 [abir-portfolio.vercel.app](https://abir-portfolio.vercel.app)
+> 📍 Rajshahi, Bangladesh &bull; 🌐 [My Portfolio](https://abir-portfolio-gray.vercel.app)
 
 ---
 
@@ -103,4 +103,4 @@ When I'm not coding or studying engineering circuits, I recharge through:
 - **GitHub**: [github.com/abirjuboraj](https://github.com/abirjuboraj)
 - **WhatsApp**: [+8801773341277](https://wa.me/8801773341277)
 - **Facebook**: [facebook.com/share/1KFmqXwP7i](https://www.facebook.com/share/1KFmqXwP7i/)
-- **Portfolio**: [abir-portfolio.vercel.app](https://abir-portfolio.vercel.app)
+- **Portfolio**: [abir-portfolio-gray.vercel.app](https://abir-portfolio-gray.vercel.app)
