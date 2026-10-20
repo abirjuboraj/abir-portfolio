@@ -11,7 +11,7 @@ import { siteConfig } from "@/data/site";
 export default function Projects() {
   return (
     <section id="projects" className="py-20 md:py-28 relative section-dimmer">
-      <div className="max-w-[1120px] mx-auto px-6 relative z-10">
+      <div className="max-w-280 mx-auto px-6 relative z-10">
         <SectionHeading
           eyebrow="Projects"
           title="Featured Work"
