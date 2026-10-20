@@ -26,12 +26,12 @@ export default function Projects() {
         </div>
 
         {/* Interactive GitHub Callout Box */}
-        <div className="mt-14 sm:mt-20 max-w-3xl mx-auto rounded-3xl bg-gradient-to-b from-raised via-surface to-raised border border-line p-6 sm:p-10 text-center relative overflow-hidden shadow-2xl group">
+        <div className="mt-14 sm:mt-20 max-w-3xl mx-auto rounded-3xl bg-linear-to-b from-raised via-surface to-raised border border-line p-6 sm:p-10 text-center relative overflow-hidden shadow-2xl group">
           {/* Subtle ambient backlight */}
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-40 bg-blue/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* Top subtle blue highlight line */}
-          <div className="absolute top-0 left-1/4 right-1/4 h-[1px] bg-gradient-to-r from-transparent via-blue to-transparent" />
+          <div className="absolute top-0 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-blue to-transparent" />
 
           {/* Eyebrow badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-line text-xs font-semibold text-soft-blue mb-4 shadow-sm">
@@ -41,17 +41,17 @@ export default function Projects() {
 
           {/* Heading */}
           <h3 className="font-sora text-2xl sm:text-3xl font-bold text-text mb-3 leading-snug">
-            Want to see more of my
-            <span className="bg-gradient-to-r from-soft-blue to-blue bg-clip-text text-transparent">
+            Want to see more of my{" "}
+            <span className="bg-linear-to-r from-soft-blue to-blue bg-clip-text text-transparent">
               work?
             </span>
           </h3>
 
           {/* Subtitle */}
           <p className="text-muted text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
-            I regularly build, experiment with AI, and contribute to the developer
-            community. Explore all my repositories, experiments, and code on
-            GitHub.
+            I regularly build, experiment with AI, and contribute to the
+            developer community. Explore all my repositories, experiments, and
+            code on GitHub.
           </p>
 
           {/* Interactive Button */}
