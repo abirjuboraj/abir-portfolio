@@ -54,11 +54,20 @@ export default function ResumeModal({
 }: ResumeModalProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
-  const [zoomMultiplier, setZoomMultiplier] = useState(1);
+  const [zoomScale, setZoomScale] = useState(1);
+  const [isPinching, setIsPinching] = useState(false);
+  const [baseDimensions, setBaseDimensions] = useState<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Render PDF using client-side PDF.js canvas renderer
+  // Touch pinch-to-zoom tracking refs
+  const initialPinchDistRef = useRef<number | null>(null);
+  const startPinchScaleRef = useRef<number>(1);
+
+  // Render PDF onto high-resolution canvas at native sharpness (1.4x container width)
   const renderPdf = useCallback(async () => {
     if (!isOpen) return;
     setIsLoading(true);
@@ -108,27 +117,29 @@ export default function ResumeModal({
 
       // Measure available width
       const containerWidth = containerRef.current.clientWidth || 360;
-      // Allow full width fitting minus side padding
       const isMobile = window.innerWidth < 640;
       const padding = isMobile ? 16 : 48;
-      const targetDisplayWidth = Math.max(
-        containerWidth - padding,
-        280
-      ) * zoomMultiplier;
+      const baseDisplayWidth = Math.max(containerWidth - padding, 280);
 
       const unscaledViewport = page.getViewport({ scale: 1 });
-      const baseScale = targetDisplayWidth / unscaledViewport.width;
+      const baseScale = baseDisplayWidth / unscaledViewport.width;
 
-      // Crisp rendering for retina / mobile high-DPI screens
-      const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
-      const outputScale = baseScale * dpr;
+      // Render canvas with high pixel density (crisp even when zoomed in up to 2.5x)
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      const renderScale = baseScale * dpr * 1.35;
+      const viewport = page.getViewport({ scale: renderScale });
 
-      const viewport = page.getViewport({ scale: outputScale });
+      const displayW = Math.floor(baseDisplayWidth);
+      const displayH = Math.floor(
+        (baseDisplayWidth / unscaledViewport.width) * unscaledViewport.height
+      );
 
       canvas.width = Math.floor(viewport.width);
       canvas.height = Math.floor(viewport.height);
-      canvas.style.width = `${Math.floor(viewport.width / dpr)}px`;
-      canvas.style.height = `${Math.floor(viewport.height / dpr)}px`;
+      canvas.style.width = `${displayW}px`;
+      canvas.style.height = `${displayH}px`;
+
+      setBaseDimensions({ width: displayW, height: displayH });
 
       const renderContext = {
         canvasContext: context,
@@ -142,10 +153,10 @@ export default function ResumeModal({
       setLoadError(true);
       setIsLoading(false);
     }
-  }, [isOpen, pdfUrl, zoomMultiplier]);
+  }, [isOpen, pdfUrl]);
 
   const handleClose = useCallback(() => {
-    setZoomMultiplier(1);
+    setZoomScale(1);
     onClose();
   }, [onClose]);
 
@@ -178,6 +189,36 @@ export default function ResumeModal({
     };
   }, [isOpen, handleClose]);
 
+  // Touch Pinch-to-Zoom handlers
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      initialPinchDistRef.current = dist;
+      startPinchScaleRef.current = zoomScale;
+      setIsPinching(true);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2 && initialPinchDistRef.current !== null) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const factor = dist / initialPinchDistRef.current;
+      const nextScale = Math.min(Math.max(startPinchScaleRef.current * factor, 0.8), 2.5);
+      setZoomScale(nextScale);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    initialPinchDistRef.current = null;
+    setIsPinching(false);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -205,53 +246,54 @@ export default function ResumeModal({
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
             className="relative z-10 w-full max-w-4xl h-[94vh] sm:h-[88vh] flex flex-col bg-[#0f0f14] border border-white/[0.1] rounded-2xl shadow-2xl shadow-black/80 overflow-hidden"
           >
-            {/* Header Toolbar */}
+            {/* Header Toolbar: Clean, uncluttered, properly responsive */}
             <div className="flex items-center justify-between gap-2 px-3 sm:px-6 py-2.5 sm:py-3.5 border-b border-white/[0.08] bg-[#14141c]/95 backdrop-blur-md shrink-0">
-              {/* Left Identity: Icon + Name & Title */}
+              {/* Left Identity: Preview Title on mobile; Name & Role on tablet & laptop */}
               <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
-                <div className="w-8 h-8 rounded-lg bg-blue/15 border border-blue/30 flex items-center justify-center text-soft-blue shrink-0">
-                  <HiOutlineEye className="w-4 h-4" />
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue/15 border border-blue/30 flex items-center justify-center text-soft-blue shrink-0">
+                  <HiOutlineEye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <h3 className="font-sora text-xs sm:text-base font-semibold text-white tracking-tight leading-tight">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-sora text-xs sm:text-base font-semibold text-white tracking-tight leading-tight truncate">
                       Resume Preview
                     </h3>
                     <span className="hidden sm:inline-block text-[10px] font-normal text-muted px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
                       PDF
                     </span>
                   </div>
-                  <p className="text-[10px] sm:text-xs text-muted leading-tight mt-0.5 whitespace-normal sm:whitespace-nowrap">
+                  {/* Name and Title: Hidden on mobile (<640px), visible on tablet and laptop */}
+                  <p className="hidden sm:block text-xs text-muted leading-tight mt-0.5 truncate">
                     Md. Abir Hossen <span className="opacity-40">•</span> Full Stack Developer
                   </p>
                 </div>
               </div>
 
-              {/* Action Buttons: Zoom + Direct Download CTA + External Open + Close */}
+              {/* Action Buttons: Smooth Zoom + Download CTA + External Tab + Close */}
               <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                {/* Zoom controls for readable text on mobile */}
+                {/* Zoom Controls */}
                 <div className="flex items-center bg-white/[0.04] border border-white/[0.08] rounded-xl p-0.5">
                   <button
                     type="button"
                     onClick={() =>
-                      setZoomMultiplier((prev) => Math.max(0.8, prev - 0.2))
+                      setZoomScale((prev) => Math.max(0.8, Number((prev - 0.2).toFixed(1))))
                     }
-                    disabled={zoomMultiplier <= 0.8}
+                    disabled={zoomScale <= 0.8}
                     className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-muted hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"
                     title="Zoom Out"
                     aria-label="Zoom Out"
                   >
                     <HiOutlineMagnifyingGlassMinus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-[10px] font-mono px-1.5 text-muted min-w-[34px] text-center select-none">
-                    {Math.round(zoomMultiplier * 100)}%
+                  <span className="text-[10px] sm:text-xs font-mono px-1 sm:px-1.5 text-muted min-w-[32px] sm:min-w-[38px] text-center select-none">
+                    {Math.round(zoomScale * 100)}%
                   </span>
                   <button
                     type="button"
                     onClick={() =>
-                      setZoomMultiplier((prev) => Math.min(2.0, prev + 0.2))
+                      setZoomScale((prev) => Math.min(2.5, Number((prev + 0.2).toFixed(1))))
                     }
-                    disabled={zoomMultiplier >= 2.0}
+                    disabled={zoomScale >= 2.5}
                     className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center text-muted hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors"
                     title="Zoom In"
                     aria-label="Zoom In"
@@ -295,9 +337,13 @@ export default function ResumeModal({
               </div>
             </div>
 
-            {/* Document Viewer Container - Full Touch Scrolling Enabled */}
+            {/* Document Viewer Container with Pinch-to-Zoom & Touch Gestures */}
             <div
               ref={containerRef}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchEnd}
               className="relative flex-1 w-full bg-[#09090d] overflow-y-scroll overflow-x-auto touch-pan-y touch-pan-x p-2 sm:p-6"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
@@ -344,12 +390,25 @@ export default function ResumeModal({
                 </div>
               )}
 
-              {/* Crisp HTML5 Canvas rendering page 1 of the resume with bottom padding for complete scrolling */}
-              <div className="min-w-fit flex justify-center pb-12 sm:pb-8 pt-1">
+              {/* Fluid, Hardware-Accelerated Scaled Canvas Wrapper */}
+              <div
+                className="flex items-start justify-center pb-14 sm:pb-8 pt-1"
+                style={{
+                  minWidth: baseDimensions.width > 0 ? `${Math.ceil(baseDimensions.width * zoomScale)}px` : "100%",
+                  minHeight: baseDimensions.height > 0 ? `${Math.ceil(baseDimensions.height * zoomScale)}px` : "auto",
+                }}
+              >
                 <div
-                  className={`transition-opacity duration-300 shadow-2xl rounded-lg overflow-hidden border border-white/[0.1] bg-white ${
+                  className={`transition-opacity duration-300 shadow-2xl rounded-lg overflow-hidden border border-white/[0.1] bg-white origin-top-left sm:origin-top ${
                     isLoading || loadError ? "opacity-0 pointer-events-none" : "opacity-100"
                   }`}
+                  style={{
+                    transform: `scale(${zoomScale})`,
+                    transformOrigin: "top center",
+                    transition: isPinching
+                      ? "none"
+                      : "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+                  }}
                 >
                   <canvas ref={canvasRef} className="block max-w-none" />
                 </div>

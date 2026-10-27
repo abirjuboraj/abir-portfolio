@@ -1,4 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="16" fill="#FFFFFF"/>
-  <text x="32" y="34" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" fill="#09090B" text-anchor="middle" dominant-baseline="central" letter-spacing="-1">AH</text>
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#181820"/>
+      <stop offset="100%" stop-color="#0e0e12"/>
+    </linearGradient>
+    <linearGradient id="topGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#60a5fa" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="diagonalGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <!-- Card base -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+  <!-- Ambient blue sheen -->
+  <rect width="64" height="64" rx="16" fill="url(#diagonalGlow)"/>
+  <!-- Border -->
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" fill="none" stroke="rgba(255, 255, 255, 0.16)" stroke-width="1.5"/>
+  <!-- Top glow line -->
+  <line x1="12" y1="1" x2="52" y2="1" stroke="url(#topGlow)" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Monogram text -->
+  <text x="32" y="35" font-family="'Sora', system-ui, -apple-system, sans-serif" font-size="25" font-weight="800" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central" letter-spacing="-0.5">AH</text>
 </svg>

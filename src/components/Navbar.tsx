@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import ScrollProgress from "./ScrollProgress";
-import { siteConfig } from "@/data/site";
 import { useResumeModal } from "@/context/ResumeModalContext";
 
 export default function Navbar() {
@@ -26,11 +25,8 @@ export default function Navbar() {
   // Monitor scroll for glass background transition and pastHome state
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      const scrollY = window.scrollY;
+      setScrolled(scrollY > 20);
 
       if (!isHomePage) {
         setPastHome(true);
@@ -39,11 +35,11 @@ export default function Navbar() {
 
       const homeSection = document.getElementById("home");
       if (homeSection) {
-        const homeBottom = homeSection.getBoundingClientRect().bottom;
-        // When bottom of home section is at or above navbar height
-        setPastHome(homeBottom <= 80);
+        const homeRect = homeSection.getBoundingClientRect();
+        // Visible only when user has actually scrolled past the Hero section
+        setPastHome(homeRect.bottom <= 100);
       } else {
-        setPastHome(window.scrollY > 450);
+        setPastHome(scrollY > 600);
       }
     };
 
