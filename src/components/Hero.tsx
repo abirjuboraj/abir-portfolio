@@ -11,8 +11,10 @@ import { SiGithub } from "react-icons/si";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa6";
 import TechOrbit from "./TechOrbit";
 import { siteConfig } from "@/data/site";
+import { useResumeModal } from "@/context/ResumeModalContext";
 
 export default function Hero() {
+  const { openResumeModal } = useResumeModal();
   const shouldReduceMotion = useReducedMotion();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [cursorPos, setCursorPos] = useState({ x: -1000, y: -1000 });
@@ -125,15 +127,16 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-9 w-full sm:w-auto">
-              {/* Primary Blue CTA: Download Resume */}
-              <a
-                href="/resume.pdf"
-                download="Abir_Hossen_Resume.pdf"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-medium text-white bg-blue hover:bg-blue/90 border border-blue/70 transition-all duration-200 shadow-lg shadow-blue/25 hover:shadow-blue/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
+              {/* Primary Blue CTA: Preview & Download Resume */}
+              <button
+                type="button"
+                onClick={openResumeModal}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-medium text-white bg-blue hover:bg-blue/90 border border-blue/70 transition-all duration-200 shadow-lg shadow-blue/25 hover:shadow-blue/40 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue cursor-pointer"
+                aria-label="Preview and Download Resume"
               >
                 <HiOutlineArrowDownTray className="w-5 h-5" />
                 <span>Download Resume</span>
-              </a>
+              </button>
 
               {/* Secondary Outline CTA: View Projects */}
               <Link

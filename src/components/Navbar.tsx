@@ -8,8 +8,10 @@ import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 import { HiOutlineArrowDownTray } from "react-icons/hi2";
 import ScrollProgress from "./ScrollProgress";
 import { siteConfig } from "@/data/site";
+import { useResumeModal } from "@/context/ResumeModalContext";
 
 export default function Navbar() {
+  const { openResumeModal } = useResumeModal();
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
@@ -263,26 +265,26 @@ export default function Navbar() {
                   className="overflow-hidden flex items-center shrink-0"
                 >
                   {/* Desktop Resume Button (>= 1024px) */}
-                  <a
-                    href="/resume.pdf"
-                    download="Abir_Hossen_Resume.pdf"
-                    className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium text-text hover:text-white bg-surface hover:bg-raised border border-line hover:border-soft-blue/50 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
-                    aria-label="Download Resume"
+                  <button
+                    type="button"
+                    onClick={openResumeModal}
+                    className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium text-text hover:text-white bg-surface hover:bg-raised border border-line hover:border-soft-blue/50 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue cursor-pointer"
+                    aria-label="Preview and Download Resume"
                   >
                     <HiOutlineArrowDownTray className="w-4 h-4 text-soft-blue" />
                     <span>Resume</span>
-                  </a>
+                  </button>
 
                   {/* Tablet Resume Button (768px - 1023px) */}
-                  <a
-                    href="/resume.pdf"
-                    download="Abir_Hossen_Resume.pdf"
-                    className="lg:hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-raised border border-line hover:border-soft-blue/40 text-xs font-semibold text-text hover:text-white transition-all shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue"
-                    aria-label="Download Resume"
+                  <button
+                    type="button"
+                    onClick={openResumeModal}
+                    className="lg:hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-raised border border-line hover:border-soft-blue/40 text-xs font-semibold text-text hover:text-white transition-all shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue cursor-pointer"
+                    aria-label="Preview and Download Resume"
                   >
                     <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
                     <span>CV</span>
-                  </a>
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -321,15 +323,15 @@ export default function Navbar() {
                   }}
                   className="overflow-hidden flex items-center shrink-0"
                 >
-                  <a
-                    href="/resume.pdf"
-                    download="Abir_Hossen_Resume.pdf"
-                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface border border-line text-xs font-semibold text-text hover:text-white hover:border-soft-blue/40 shadow-sm whitespace-nowrap"
-                    aria-label="Download Resume"
+                  <button
+                    type="button"
+                    onClick={openResumeModal}
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface border border-line text-xs font-semibold text-text hover:text-white hover:border-soft-blue/40 shadow-sm whitespace-nowrap cursor-pointer"
+                    aria-label="Preview and Download Resume"
                   >
                     <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
                     <span>CV</span>
-                  </a>
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>

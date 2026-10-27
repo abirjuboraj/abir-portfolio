@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ModernBackground from "@/components/ModernBackground";
 import PageLoader from "@/components/PageLoader";
+import { ResumeModalProvider } from "@/context/ResumeModalContext";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -122,19 +123,21 @@ export default function RootLayout({
         {/* Global Page Entrance & Route Transition Loader */}
         <PageLoader />
 
-        {/* Modern Interactive & Atmospheric Background System */}
-        <ModernBackground />
+        <ResumeModalProvider>
+          {/* Modern Interactive & Atmospheric Background System */}
+          <ModernBackground />
 
-        {/* Global Fixed Navbar */}
-        <Navbar />
+          {/* Global Fixed Navbar */}
+          <Navbar />
 
-        {/* Main Content Area */}
-        <main id="main-content" className="flex-1 relative z-10">
-          {children}
-        </main>
+          {/* Main Content Area */}
+          <main id="main-content" className="flex-1 relative z-10">
+            {children}
+          </main>
 
-        {/* Global Footer */}
-        <Footer />
+          {/* Global Footer */}
+          <Footer />
+        </ResumeModalProvider>
       </body>
     </html>
   );

@@ -192,7 +192,7 @@ export default function Footer() {
                   className="flex items-center gap-2 hover:text-text transition-colors"
                 >
                   <HiOutlinePhone className="w-3.5 h-3.5 text-soft-blue" />
-                  <span>{siteConfig.contact.phone}</span>
+                  <span>{siteConfig.contact.phoneRaw}</span>
                 </a>
                 <a
                   href={siteConfig.contact.whatsappUrl}

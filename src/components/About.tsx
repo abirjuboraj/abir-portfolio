@@ -322,11 +322,11 @@ function WorkAndInterestsShowcase() {
                   <span className="p-1 rounded-md bg-surface border border-white/[0.08] text-soft-blue">
                     {item.icon}
                   </span>
-                  <h4 className="font-sora text-[13px] sm:text-sm font-semibold text-text truncate">
+                  <h4 className="font-sora text-sm sm:text-base font-semibold text-text truncate">
                     {item.title}
                   </h4>
                 </div>
-                <p className="text-xs sm:text-[13px] text-muted/95 leading-relaxed">
+                <p className="text-sm text-muted/95 leading-relaxed">
                   {item.description}
                 </p>
               </div>
