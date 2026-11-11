@@ -210,7 +210,7 @@ function MainNarrativeCard() {
         </div>
 
         <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs text-soft-blue">
-          <span>Full Stack Developer</span>
+          <span>Junior Full Stack Developer</span>
         </div>
       </div>
 

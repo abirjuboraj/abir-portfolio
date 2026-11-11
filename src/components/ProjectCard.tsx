@@ -62,12 +62,24 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
       <div>
-        {/* Top Header Row with Project Number and Quick Action Links */}
-        <div className="flex items-center justify-between gap-2 mb-3.5">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-surface border border-line text-[11px] font-semibold text-soft-blue">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue" />
-            Project {projectNumber}
-          </span>
+        {/* Top Header Row with Project Number, In-Development / Category Badge, and Quick Action Links */}
+        <div className="flex items-center justify-between gap-2 mb-3.5 flex-wrap">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-surface border border-line text-[11px] font-semibold text-soft-blue">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue" />
+              Project {projectNumber}
+            </span>
+
+            {project.isDeveloping && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-[11px] font-semibold text-amber-400">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                </span>
+                In Development
+              </span>
+            )}
+          </div>
 
           {/* Quick External Links (Live & GitHub) */}
           <div className="flex items-center gap-1.5">

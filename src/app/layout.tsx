@@ -32,13 +32,14 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://abir-portfolio.vercel.app"),
   title: {
-    default: "Md. Abir Hossen | Full Stack Developer",
+    default: "Md. Abir Hossen | Junior Full Stack Developer",
     template: "%s | Md. Abir Hossen",
   },
   description:
-    "Md. Abir Hossen, Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
+    "Md. Abir Hossen, Junior Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
   keywords: [
     "Md. Abir Hossen",
+    "Junior Full Stack Developer",
     "Full Stack Developer",
     "Next.js",
     "React",
@@ -56,24 +57,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://abir-portfolio.vercel.app",
-    title: "Md. Abir Hossen | Full Stack Developer",
+    title: "Md. Abir Hossen | Junior Full Stack Developer",
     description:
-      "Md. Abir Hossen, Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
+      "Md. Abir Hossen, Junior Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
     siteName: "Md. Abir Hossen Portfolio",
     images: [
       {
         url: "/photo.jpg",
         width: 1200,
         height: 630,
-        alt: "Md. Abir Hossen - Full Stack Developer",
+        alt: "Md. Abir Hossen - Junior Full Stack Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Md. Abir Hossen | Full Stack Developer",
+    title: "Md. Abir Hossen | Junior Full Stack Developer",
     description:
-      "Md. Abir Hossen, Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
+      "Md. Abir Hossen, Junior Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
     images: ["/photo.jpg"],
   },
   robots: {

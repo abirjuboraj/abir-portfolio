@@ -186,11 +186,10 @@ export default function Navbar() {
     <>
       <ScrollProgress />
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
             ? "bg-surface/85 backdrop-blur-md border-b border-line shadow-lg shadow-black/20 py-3.5"
             : "bg-transparent py-5"
-        }`}
+          }`}
         style={{ paddingTop: "max(12px, env(safe-area-inset-top))" }}
       >
         <div className="max-w-[1120px] mx-auto px-6 relative flex items-center justify-between min-h-[44px]">
@@ -226,11 +225,10 @@ export default function Navbar() {
                   key={item.name}
                   href={getHref(item.href)}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-2 md:px-2.5 lg:px-3.5 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap ${
-                    isActive
+                  className={`relative px-2 md:px-2.5 lg:px-3.5 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap ${isActive
                       ? "text-white"
                       : "text-muted hover:text-text hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   {isActive && (
                     <motion.div
@@ -279,7 +277,7 @@ export default function Navbar() {
                     aria-label="Preview and Download Resume"
                   >
                     <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
-                    <span>CV</span>
+                    <span>Resume</span>
                   </button>
                 </motion.div>
               )}
@@ -326,7 +324,7 @@ export default function Navbar() {
                     aria-label="Preview and Download Resume"
                   >
                     <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
-                    <span>CV</span>
+                    <span>Resume</span>
                   </button>
                 </motion.div>
               )}
@@ -381,11 +379,10 @@ export default function Navbar() {
                       key={item.name}
                       href={getHref(item.href)}
                       onClick={(e) => handleNavClick(e, item.href)}
-                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                        isActive
+                      className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${isActive
                           ? "bg-raised text-white border border-line"
                           : "text-muted hover:text-white hover:bg-raised/50"
-                      }`}
+                        }`}
                     >
                       <span>{item.name}</span>
                       {isActive && (

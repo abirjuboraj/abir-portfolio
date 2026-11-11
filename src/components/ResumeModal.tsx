@@ -264,7 +264,7 @@ export default function ResumeModal({
                   </div>
                   {/* Name and Title: Hidden on mobile (<640px), visible on tablet and laptop */}
                   <p className="hidden sm:block text-xs text-muted leading-tight mt-0.5 truncate">
-                    Md. Abir Hossen <span className="opacity-40">•</span> Full Stack Developer
+                    Md. Abir Hossen <span className="opacity-40">•</span> Junior Full Stack Developer
                   </p>
                 </div>
               </div>

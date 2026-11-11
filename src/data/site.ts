@@ -16,18 +16,18 @@ export const siteConfig = {
   name: "Md. Abir Hossen",
   shortName: "Abir Hossen",
   initials: "AH",
-  role: "Full Stack Developer",
+  role: "Junior Full Stack Developer",
   url: "https://abir-portfolio.vercel.app",
   metaDescription:
-    "Md. Abir Hossen, Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
+    "Md. Abir Hossen, Junior Full Stack Developer building websites and web apps powered by AI. Open to full-time and remote roles.",
   headline: "Hi, I'm Abir Hossen",
   typingTitles: [
-    "Full Stack Developer",
+    "Junior Full Stack Developer",
     "Next.js & TypeScript",
     "Building with AI",
   ],
   heroIntro:
-    "A Full Stack Developer building websites and web apps powered by AI. Turning ideas into working products with Next.js, TypeScript and Tailwind CSS.",
+    "A Junior Full Stack Developer building websites and web apps powered by AI. Turning ideas into working products with Next.js, TypeScript and Tailwind CSS.",
   badgeText: "Open to full-time & remote roles",
   socials: {
     github: {

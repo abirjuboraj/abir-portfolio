@@ -88,10 +88,22 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16 pb-16 border-b border-line">
           {/* Details Column */}
           <div className="lg:col-span-6 flex flex-col items-start">
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-raised border border-line text-xs font-semibold text-soft-blue tracking-wide uppercase mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue" />
-              <span>Project {projectNumber}</span>
+            {/* Eyebrow and In-Development Badge */}
+            <div className="flex items-center gap-2 mb-4 flex-wrap">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-raised border border-line text-xs font-semibold text-soft-blue tracking-wide uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue" />
+                <span>Project {projectNumber}</span>
+              </div>
+
+              {project.isDeveloping && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-400">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                  </span>
+                  In Development
+                </span>
+              )}
             </div>
 
             {/* Title */}

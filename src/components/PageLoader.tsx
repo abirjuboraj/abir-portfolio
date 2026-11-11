@@ -55,7 +55,7 @@ export function LoaderVisual({
         {/* Status line under progress bar */}
         <div className="flex items-center justify-between mt-2.5 px-0.5">
           <span className="text-[10px] font-mono tracking-[0.22em] text-muted uppercase">
-            Full Stack Developer
+            Junior Full Stack Developer
           </span>
           <span className="text-[10px] font-mono font-semibold text-soft-blue">
             {Math.round(progress)}%

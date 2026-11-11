@@ -1,13 +1,13 @@
 # Md. Abir Hossen
 
-> **Full Stack Developer** &bull; **Electrical & Electronic Engineering (RUET)**  
+> **Junior Full Stack Developer** &bull; **Electrical & Electronic Engineering (RUET)**  
 > 📍 Rajshahi, Bangladesh &bull; 🌐 [My Portfolio](https://abir-portfolio-gray.vercel.app)
 
 ---
 
 ## 👨‍💻 About Me
 
-Hi! I'm **Md. Abir Hossen**, a precision-minded Full Stack Developer with an engineering foundation in **Electrical and Electronic Engineering at RUET** (Rajshahi University of Engineering and Technology). 
+Hi! I'm **Md. Abir Hossen**, a precision-minded Junior Full Stack Developer with an engineering foundation in **Electrical and Electronic Engineering at RUET** (Rajshahi University of Engineering and Technology). 
 
 My engineering background deeply shapes how I approach software development: thinking logically, breaking complex problems into manageable systems, and delivering deterministic, reliable solutions. From crafting responsive, accessible user interfaces with **Next.js**, **React**, and **TypeScript** to architecting reliable backend services and database models with **MongoDB**, I focus on building digital products that are fast, intuitive, and built to last.
 
