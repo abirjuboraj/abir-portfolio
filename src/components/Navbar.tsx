@@ -213,9 +213,9 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Navigation Links (Visible on Tablet and Desktop - Locked at exact middle of viewport) */}
+          {/* Navigation Links (Visible on Tablet and Desktop - Centered) */}
           <nav
-            className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-raised/80 border border-line rounded-full px-1.5 md:px-2 lg:px-3 py-1 lg:py-1.5 backdrop-blur-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-auto shadow-sm"
+            className="hidden md:flex items-center gap-0.5 lg:gap-1 bg-raised/80 border border-line rounded-full px-1 md:px-1.5 lg:px-3 py-1 lg:py-1.5 backdrop-blur-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-auto shadow-sm"
             aria-label="Primary Navigation"
           >
             {navItems.map((item) => {
@@ -225,7 +225,7 @@ export default function Navbar() {
                   key={item.name}
                   href={getHref(item.href)}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative px-2 md:px-2.5 lg:px-3.5 py-1 lg:py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap ${isActive
+                  className={`relative px-1.5 md:px-2 lg:px-3.5 py-1 lg:py-1.5 text-[11px] md:text-xs lg:text-sm font-medium rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap ${isActive
                       ? "text-white"
                       : "text-muted hover:text-text hover:bg-white/5"
                     }`}
@@ -244,7 +244,7 @@ export default function Navbar() {
           </nav>
 
           {/* Tablet & Desktop Right CTA: Resume Button (appears when scrolled past home) + Hire Me */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-2.5 z-10 shrink-0">
+          <div className="hidden md:flex items-center gap-1.5 lg:gap-2.5 z-10 shrink-0">
             <AnimatePresence>
               {pastHome && (
                 <motion.div
@@ -273,10 +273,10 @@ export default function Navbar() {
                   <button
                     type="button"
                     onClick={openResumeModal}
-                    className="lg:hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-surface hover:bg-raised border border-line hover:border-soft-blue/40 text-xs font-semibold text-text hover:text-white transition-all shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue cursor-pointer"
+                    className="lg:hidden inline-flex items-center gap-1 px-2 py-1.5 rounded-xl bg-surface hover:bg-raised border border-line hover:border-soft-blue/40 text-[11px] font-semibold text-text hover:text-white transition-all shadow-sm whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue cursor-pointer"
                     aria-label="Preview and Download Resume"
                   >
-                    <HiOutlineArrowDownTray className="w-3.5 h-3.5 text-soft-blue" />
+                    <HiOutlineArrowDownTray className="w-3 h-3 text-soft-blue shrink-0" />
                     <span>Resume</span>
                   </button>
                 </motion.div>
@@ -296,7 +296,7 @@ export default function Navbar() {
             <Link
               href={getHref("#contact")}
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="lg:hidden inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-blue hover:bg-blue/90 border border-blue/60 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap"
+              className="lg:hidden inline-flex items-center px-2.5 py-1.5 rounded-xl text-[11px] font-semibold text-white bg-blue hover:bg-blue/90 border border-blue/60 transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue whitespace-nowrap"
             >
               Hire Me
             </Link>
